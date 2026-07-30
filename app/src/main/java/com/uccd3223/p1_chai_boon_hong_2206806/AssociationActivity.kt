@@ -77,7 +77,8 @@ class AssociationActivity : AppCompatActivity() {
             val optionBtn = Button(this).apply {
                 text = option.toString()
                 textSize = 28f
-                
+                setTextColor(Color.WHITE)
+                setBackgroundResource(R.drawable.btn_rounded_primary)
                 val layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
@@ -86,17 +87,27 @@ class AssociationActivity : AppCompatActivity() {
                 }
                 this.layoutParams = layoutParams
 
-                setOnClickListener { checkAnswer(option) }
+                setOnClickListener { checkAnswer(option, this) }
             }
             optionsContainerLayout.addView(optionBtn)
         }
     }
 
-    private fun checkAnswer(selectedOption: Int) {
+    private fun checkAnswer(selectedOption: Int, button: Button) {
         if (selectedOption == targetCount) {
-            loadNextQuestion()
+            button.setBackgroundResource(R.drawable.btn_rounded_correct)
+            android.widget.Toast.makeText(this, "Great Job!", android.widget.Toast.LENGTH_SHORT).show()
+            
+            for (i in 0 until optionsContainerLayout.childCount) {
+                optionsContainerLayout.getChildAt(i).isEnabled = false
+            }
+
+            button.postDelayed({ loadNextQuestion() }, 1000)
         } else {
-            // Error handling (e.g. shake animation)
+            button.setBackgroundResource(R.drawable.btn_rounded_wrong)
+            val shake = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.shake)
+            button.startAnimation(shake)
+            android.widget.Toast.makeText(this, "Oops, try again!", android.widget.Toast.LENGTH_SHORT).show()
         }
     }
 }

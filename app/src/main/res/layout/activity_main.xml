@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F8FF"
+    android:background="@color/app_bg"
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
@@ -14,9 +14,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Kids Math Fun!"
-        android:textSize="36sp"
+        android:textSize="40sp"
         android:textStyle="bold"
-        android:textColor="#333333"
+        android:textColor="@color/text_primary"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +47,10 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:textSize="18sp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_rounded_primary"
             android:padding="16dp"
             android:text="Number Association" />
 
@@ -56,7 +59,10 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:textSize="18sp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_rounded_primary"
             android:padding="16dp"
             android:text="Place Value" />
 
@@ -65,7 +71,10 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:textSize="18sp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_rounded_primary"
             android:padding="16dp"
             android:text="Number Recognition" />
 
@@ -73,7 +82,10 @@
             android:id="@+id/btnSequence"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_rounded_primary"
             android:padding="16dp"
             android:text="Number Sequence" />
 

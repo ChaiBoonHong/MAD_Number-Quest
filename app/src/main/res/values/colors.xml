@@ -2,4 +2,16 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    
+    <!-- Theme Colors -->
+    <color name="app_bg">#F4F9FF</color>
+    <color name="btn_primary">#4FC3F7</color>
+    <color name="btn_primary_dark">#0288D1</color>
+    <color name="btn_correct">#81C784</color>
+    <color name="btn_correct_dark">#388E3C</color>
+    <color name="btn_wrong">#E57373</color>
+    <color name="btn_wrong_dark">#D32F2F</color>
+    
+    <color name="text_primary">#37474F</color>
+    <color name="text_secondary">#546E7A</color>
 </resources>
