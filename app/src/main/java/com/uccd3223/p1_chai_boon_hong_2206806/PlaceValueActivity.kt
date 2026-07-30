@@ -53,17 +53,27 @@ class PlaceValueActivity : AppCompatActivity() {
 
     private fun renderVisualUI() {
         val dpScale = resources.displayMetrics.density
-        val margin = (8 * dpScale).toInt()
+        
+        // Dynamically calculate unit size to fit within the 1:1 square border
+        // A Tens block is 1 unit wide, 10 units tall. A Ones block is 1 unit wide, 1 unit tall.
+        val totalBlocks = currentData.tens + currentData.ones
+        val unitSizeDp = when {
+            totalBlocks <= 6 -> 24
+            totalBlocks <= 12 -> 20
+            else -> 18
+        }
+        val marginDp = 4
+        
+        val margin = (marginDp * dpScale).toInt()
+        val unitSize = (unitSizeDp * dpScale).toInt()
+        val tensHeight = unitSize * 10
 
         // Tens
         for (i in 0 until currentData.tens) {
             val tensView = ImageView(this).apply {
-                setImageResource(R.drawable.game_tens_block)
-                scaleType = ImageView.ScaleType.FIT_CENTER
-                val newLayoutParams = FlexboxLayout.LayoutParams(
-                    (80 * dpScale).toInt(),
-                    (80 * dpScale).toInt()
-                ).apply {
+                setImageResource(R.drawable.ic_tens_block)
+                scaleType = ImageView.ScaleType.FIT_XY
+                val newLayoutParams = FlexboxLayout.LayoutParams(unitSize, tensHeight).apply {
                     setMargins(margin, margin, margin, margin)
                 }
                 this.layoutParams = newLayoutParams
@@ -74,12 +84,9 @@ class PlaceValueActivity : AppCompatActivity() {
         // Ones
         for (i in 0 until currentData.ones) {
             val onesView = ImageView(this).apply {
-                setImageResource(R.drawable.game_ones_block)
-                scaleType = ImageView.ScaleType.FIT_CENTER
-                val newLayoutParams = FlexboxLayout.LayoutParams(
-                    (80 * dpScale).toInt(),
-                    (80 * dpScale).toInt()
-                ).apply {
+                setImageResource(R.drawable.ic_ones_block)
+                scaleType = ImageView.ScaleType.FIT_XY
+                val newLayoutParams = FlexboxLayout.LayoutParams(unitSize, unitSize).apply {
                     setMargins(margin, margin, margin, margin)
                 }
                 this.layoutParams = newLayoutParams

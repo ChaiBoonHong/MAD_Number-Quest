@@ -54,9 +54,15 @@ class AssociationActivity : AppCompatActivity() {
         val size = (64 * dpScale).toInt()
         val margin = (8 * dpScale).toInt()
 
-        for (i in 0 until targetCount) {
+        val activeIndices = getActiveIndices(targetCount)
+
+        for (i in 0 until 9) {
             val itemView = ImageView(this).apply {
-                setImageResource(R.drawable.game_apple)
+                if (activeIndices.contains(i)) {
+                    setImageResource(R.drawable.game_apple)
+                } else {
+                    visibility = android.view.View.INVISIBLE
+                }
                 scaleType = ImageView.ScaleType.FIT_CENTER
                 val layoutParams = GridLayout.LayoutParams().apply {
                     width = size
@@ -66,6 +72,21 @@ class AssociationActivity : AppCompatActivity() {
                 this.layoutParams = layoutParams
             }
             objectsGridLayout.addView(itemView)
+        }
+    }
+
+    private fun getActiveIndices(count: Int): List<Int> {
+        return when (count) {
+            1 -> listOf(4)
+            2 -> listOf(3, 5)
+            3 -> listOf(3, 4, 5)
+            4 -> listOf(0, 2, 6, 8)
+            5 -> listOf(0, 2, 4, 6, 8)
+            6 -> listOf(0, 3, 6, 2, 5, 8)
+            7 -> listOf(0, 2, 3, 4, 5, 6, 8)
+            8 -> listOf(0, 1, 2, 3, 5, 6, 7, 8)
+            9 -> listOf(0, 1, 2, 3, 4, 5, 6, 7, 8)
+            else -> emptyList()
         }
     }
 

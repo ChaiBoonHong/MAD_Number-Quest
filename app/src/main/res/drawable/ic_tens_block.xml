@@ -1,0 +1,27 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="240dp"
+    android:viewportWidth="24"
+    android:viewportHeight="240">
+    
+    <!-- Base block with shadow and 3D effect -->
+    <path
+        android:pathData="M 4,4 L 20,4 L 20,236 L 4,236 Z"
+        android:fillColor="#FFC107"
+        android:strokeColor="#FF9800"
+        android:strokeWidth="1"/>
+        
+    <!-- Horizontal lines separating the 10 units -->
+    <path
+        android:pathData="M 4,27.2 L 20,27.2 
+                          M 4,50.4 L 20,50.4 
+                          M 4,73.6 L 20,73.6 
+                          M 4,96.8 L 20,96.8 
+                          M 4,120 L 20,120 
+                          M 4,143.2 L 20,143.2 
+                          M 4,166.4 L 20,166.4 
+                          M 4,189.6 L 20,189.6 
+                          M 4,212.8 L 20,212.8"
+        android:strokeColor="#FF9800"
+        android:strokeWidth="1.5"/>
+</vector>

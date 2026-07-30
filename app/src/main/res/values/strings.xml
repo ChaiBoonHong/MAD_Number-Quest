@@ -6,9 +6,9 @@
     <string name="place_value_title">Place\nValue</string>
     <string name="number_recognition_title">Number\nRecognition</string>
     <string name="number_sequence_title">Number\nSequence</string>
-    <string name="how_many_objects">How many objects are there?</string>
-    <string name="how_many_tens_ones">How many Tens and Ones?</string>
-    <string name="find_the_number">Which number is this?</string>
+    <string name="how_many_objects">Count the objects</string>
+    <string name="how_many_tens_ones">Count the blocks</string>
+    <string name="find_the_number">Find the number</string>
     <string name="find_the_missing_number">Order the numbers.</string>
     <string name="start_with_smallest">Start with the smallest.</string>
     <string name="zero">0</string>

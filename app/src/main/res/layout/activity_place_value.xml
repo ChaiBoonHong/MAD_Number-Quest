@@ -36,11 +36,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnBack" />
 
-    <ScrollView
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/borderContainer"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_rounded_white"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintTop_toBottomOf="@id/tvInstruction"
         app:layout_constraintBottom_toTopOf="@id/optionsContainerLayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,15 +52,19 @@
 
         <com.google.android.flexbox.FlexboxLayout
             android:id="@+id/visualContainerLayout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
             android:padding="16dp"
-            android:background="@drawable/bg_rounded_white"
             app:flexWrap="wrap"
             app:justifyContent="center"
+            app:alignItems="center"
+            app:alignContent="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="MissingClass" />
-    </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <GridLayout
         android:id="@+id/optionsContainerLayout"
