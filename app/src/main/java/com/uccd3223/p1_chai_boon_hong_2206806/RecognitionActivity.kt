@@ -48,7 +48,7 @@ class RecognitionActivity : AppCompatActivity() {
         
         currentData = ExerciseGeneratorUtil.generateRecognitionOptions(target, 50, 4)
 
-        tvTarget.text = currentData.targetNumber.toString()
+        tvTarget.text = ExerciseGeneratorUtil.numberToWords(currentData.targetNumber)
         renderOptionsUI()
     }
 

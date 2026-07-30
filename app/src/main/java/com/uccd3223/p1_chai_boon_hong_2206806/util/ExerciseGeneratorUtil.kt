@@ -71,4 +71,28 @@ object ExerciseGeneratorUtil {
         val missingIndex = Random.nextInt(length)
         return SequenceData(sequence, missingIndex)
     }
+
+    fun numberToWords(number: Int): String {
+        if (number == 0) return "Zero"
+        if (number < 0 || number > 99) return number.toString()
+        val ones = arrayOf("", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
+            "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen")
+        val tens = arrayOf("", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety")
+
+        return if (number < 20) {
+            ones[number]
+        } else {
+            val t = tens[number / 10]
+            val o = ones[number % 10]
+            if (o.isEmpty()) t else "$t-$o"
+        }
+    }
+
+    fun generateSortSequence(length: Int, maxNumber: Int = 99): List<Int> {
+        val numbers = mutableSetOf<Int>()
+        while (numbers.size < length) {
+            numbers.add(Random.nextInt(1, maxNumber + 1))
+        }
+        return numbers.toList()
+    }
 }

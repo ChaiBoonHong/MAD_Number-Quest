@@ -8,7 +8,8 @@
     <string name="number_sequence_title">Number\nSequence</string>
     <string name="how_many_objects">How many objects are there?</string>
     <string name="how_many_tens_ones">How many Tens and Ones?</string>
-    <string name="find_the_number">Find the number:</string>
-    <string name="find_the_missing_number">Find the missing number!</string>
+    <string name="find_the_number">Which number is this?</string>
+    <string name="find_the_missing_number">Order the numbers.</string>
+    <string name="start_with_smallest">Start with the smallest.</string>
     <string name="zero">0</string>
 </resources>

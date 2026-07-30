@@ -41,7 +41,7 @@ class AssociationActivity : AppCompatActivity() {
         optionsContainerLayout.removeAllViews()
 
         do {
-            targetCount = ExerciseGeneratorUtil.generateObjectCount(15)
+            targetCount = ExerciseGeneratorUtil.generateObjectCount(9)
         } while (targetCount == lastTargetCount)
         lastTargetCount = targetCount
 

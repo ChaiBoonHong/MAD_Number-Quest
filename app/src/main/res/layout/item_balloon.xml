@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="80dp"
-    android:layout_height="80dp"
-    android:layout_margin="4dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp">
 
     <ImageView
-        android:id="@+id/trainBg"
+        android:id="@+id/balloonBg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/game_caterpillar_body"
+        android:src="@drawable/ic_balloon"
         android:scaleType="fitCenter"
         android:contentDescription="@null" />
 
     <TextView
-        android:id="@+id/trainText"
+        android:id="@+id/balloonText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textColor="#000000"
-        android:textSize="28sp"
-        android:textStyle="bold" />
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
 </FrameLayout>
