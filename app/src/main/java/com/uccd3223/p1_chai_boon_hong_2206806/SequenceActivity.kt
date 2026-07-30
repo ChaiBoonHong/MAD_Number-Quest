@@ -160,6 +160,7 @@ class SequenceActivity : BaseGameActivity() {
             optionBtn.layoutParams = layoutParams
 
             // Set up Touch Listener for direct dragging
+            @android.annotation.SuppressLint("ClickableViewAccessibility")
             optionBtn.setOnTouchListener { view, motionEvent ->
                 if (motionEvent.action == android.view.MotionEvent.ACTION_DOWN) {
                     val item = ClipData.Item(option.toString())

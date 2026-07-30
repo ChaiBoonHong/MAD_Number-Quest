@@ -82,13 +82,13 @@ open class BaseGameActivity : AppCompatActivity() {
     private var roundScore: Int = 0
     
     private fun updateScoreAttackUI() {
-        tvScore?.text = "R$currentRound ($roundScore/$targetQuestionsForRound)"
+        tvScore?.text = getString(R.string.round_format, currentRound, roundScore, targetQuestionsForRound)
     }
     
     protected fun onQuestionCompleted() {
-        if (gameMode == "FUN") return
-        
         score++
+        
+        if (gameMode == "FUN") return
         
         if (gameMode == "TIME_ATTACK") {
             updateScoreText()
@@ -109,11 +109,11 @@ open class BaseGameActivity : AppCompatActivity() {
     }
     
     private fun updateScoreText() {
-        tvScore?.text = "Score: $score"
+        tvScore?.text = getString(R.string.score_format, score)
     }
     
     private fun updateTimerText(seconds: Long) {
-        tvTimer?.text = "Time: ${seconds}s"
+        tvTimer?.text = getString(R.string.time_format, seconds)
     }
     
     private fun startGameTimer(durationMs: Long) {

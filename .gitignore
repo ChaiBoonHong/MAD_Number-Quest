@@ -37,3 +37,9 @@ google-services.json
 
 # Mac OS X
 .DS_Store
+
+# Kotlin
+.kotlin/
+
+# Inspection results
+/*.xml

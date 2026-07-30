@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="History"
+            android:text="@string/history"
             app:icon="@android:drawable/ic_menu_recent_history"
             style="@style/Widget.Material3.Button.TonalButton"
             app:layout_constraintEnd_toEndOf="parent"
@@ -54,8 +54,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Fun Mode"
-                android:textStyle="bold"
+                android:text="@string/fun_mode"
+                android:textSize="24sp"
                 android:textColor="@color/text_primary" />
 
             <com.google.android.material.materialswitch.MaterialSwitch
@@ -68,8 +68,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Challenge Mode"
-                android:textStyle="bold"
+                android:text="@string/challenge_mode"
+                android:textSize="24sp"
                 android:textColor="@color/text_primary" />
         </LinearLayout>
 

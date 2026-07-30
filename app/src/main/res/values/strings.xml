@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">P1-Chai_Boon_Hong-2206806</string>
     <string name="back">← Back</string>
-    <string name="kids_math_fun">Number Explorer!</string>
+    <string name="zero">0</string>
     <string name="number_association_title">Number\nAssociation</string>
     <string name="place_value_title">Place\nValue</string>
     <string name="number_recognition_title">Number\nRecognition</string>
@@ -11,5 +11,20 @@
     <string name="find_the_number">Find the number</string>
     <string name="find_the_missing_number">Order the numbers.</string>
     <string name="start_with_smallest">Start with the smallest.</string>
-    <string name="zero">0</string>
+    <string name="time_format">Time: %ds</string>
+    <string name="score_format">Score: %d</string>
+    <string name="score_initial">Score: 0</string>
+    <string name="time_initial">Time: 0s</string>
+    <string name="choose_challenge">Choose Challenge</string>
+    <string name="time_attack_desc">Time Attack\n(Beat the clock!)</string>
+    <string name="score_attack_desc">Score Attack\n(Survive the rounds!)</string>
+    <string name="time_attack">Time Attack</string>
+    <string name="sixty_seconds">60 Seconds</string>
+    <string name="ninety_seconds">90 Seconds</string>
+    <string name="one_twenty_seconds">120 Seconds</string>
+    <string name="game_history">Game History</string>
+    <string name="history">History</string>
+    <string name="fun_mode">Fun Mode</string>
+    <string name="challenge_mode">Challenge Mode</string>
+    <string name="round_format">R%1$d (%2$d/%3$d)</string>
 </resources>
