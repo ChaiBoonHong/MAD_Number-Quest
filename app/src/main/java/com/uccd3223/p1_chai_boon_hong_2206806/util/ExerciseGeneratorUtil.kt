@@ -12,6 +12,18 @@ object ExerciseGeneratorUtil {
 
     data class SequenceData(val sequence: IntArray, val missingIndex: Int) {
         val missingValue: Int get() = sequence[missingIndex]
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other !is SequenceData) return false
+            return sequence.contentEquals(other.sequence) && missingIndex == other.missingIndex
+        }
+
+        override fun hashCode(): Int {
+            var result = sequence.contentHashCode()
+            result = 31 * result + missingIndex
+            return result
+        }
     }
 
     /**
@@ -42,6 +54,8 @@ object ExerciseGeneratorUtil {
         while (options.size < numOptions) {
             val minBound = maxOf(1, targetNumber - offset)
             val maxBound = minOf(maxRange, targetNumber + offset)
+            // Guard: if the valid range is already exhausted, break to avoid an infinite loop
+            if (maxBound < minBound) break
             val distractor = Random.nextInt(minBound, maxBound + 1)
             options.add(distractor)
         }

@@ -1,18 +1,23 @@
 package com.uccd3223.p1_chai_boon_hong_2206806
 
-import android.graphics.Color
+import androidx.core.graphics.toColorInt
 import android.os.Bundle
 import android.widget.Button
 import android.widget.GridLayout
-import android.widget.LinearLayout
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.flexbox.FlexboxLayout
+import com.google.android.material.card.MaterialCardView
 import com.uccd3223.p1_chai_boon_hong_2206806.util.ExerciseGeneratorUtil
 
 class PlaceValueActivity : AppCompatActivity() {
 
-    private lateinit var visualContainerLayout: GridLayout
-    private lateinit var optionsContainerLayout: LinearLayout
+    private lateinit var visualContainerLayout: FlexboxLayout
+    private lateinit var optionsContainerLayout: GridLayout
     private lateinit var currentData: ExerciseGeneratorUtil.PlaceValueData
     private var lastTotal: Int = -1
 
@@ -49,78 +54,81 @@ class PlaceValueActivity : AppCompatActivity() {
     private fun renderVisualUI() {
         val dpScale = resources.displayMetrics.density
         val margin = (8 * dpScale).toInt()
-        val padding = (16 * dpScale).toInt()
 
         // Tens
         for (i in 0 until currentData.tens) {
-            val tensView = TextView(this).apply {
-                text = "10"
-                textSize = 24f
-                setTextColor(Color.WHITE)
-                setBackgroundColor(Color.parseColor("#E91E63"))
-                setPadding(padding, padding, padding, padding)
-                layoutParams = GridLayout.LayoutParams().apply {
+            val tensView = ImageView(this).apply {
+                setImageResource(R.drawable.game_tens_block)
+                scaleType = ImageView.ScaleType.FIT_CENTER
+                val newLayoutParams = FlexboxLayout.LayoutParams(
+                    (80 * dpScale).toInt(),
+                    (80 * dpScale).toInt()
+                ).apply {
                     setMargins(margin, margin, margin, margin)
                 }
+                this.layoutParams = newLayoutParams
             }
             visualContainerLayout.addView(tensView)
         }
 
         // Ones
         for (i in 0 until currentData.ones) {
-            val onesView = TextView(this).apply {
-                text = "1"
-                textSize = 18f
-                setTextColor(Color.WHITE)
-                setBackgroundColor(Color.parseColor("#2196F3"))
-                setPadding(padding, padding, padding, padding)
-                layoutParams = GridLayout.LayoutParams().apply {
+            val onesView = ImageView(this).apply {
+                setImageResource(R.drawable.game_ones_block)
+                scaleType = ImageView.ScaleType.FIT_CENTER
+                val newLayoutParams = FlexboxLayout.LayoutParams(
+                    (80 * dpScale).toInt(),
+                    (80 * dpScale).toInt()
+                ).apply {
                     setMargins(margin, margin, margin, margin)
                 }
+                this.layoutParams = newLayoutParams
             }
             visualContainerLayout.addView(onesView)
         }
     }
 
     private fun renderOptionsUI() {
-        val dpScale = resources.displayMetrics.density
-        val margin = (8 * dpScale).toInt()
-        
-        val optionsData = ExerciseGeneratorUtil.generateRecognitionOptions(currentData.total, 99, 3)
+        val optionsData = ExerciseGeneratorUtil.generateRecognitionOptions(currentData.total, 99, 4)
 
-        for (option in optionsData.options) {
-            val optionBtn = Button(this).apply {
-                text = option.toString()
-                textSize = 28f
-                setTextColor(Color.WHITE)
-                setBackgroundResource(R.drawable.btn_rounded_primary)
-                layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                ).apply {
-                    setMargins(margin, margin, margin, margin)
-                }
-                setOnClickListener { checkAnswer(option, this) }
+        val colors = listOf("#9C27B0", "#1368CE", "#D89E00", "#00BCD4")
+
+        for ((index, option) in optionsData.options.withIndex()) {
+            val optionBtn = layoutInflater.inflate(R.layout.item_answer_choicer, optionsContainerLayout, false) as MaterialCardView
+            optionBtn.setCardBackgroundColor(colors[index].toColorInt())
+            
+            val tv = optionBtn.findViewById<TextView>(R.id.answerChoicerText)
+            tv.text = option.toString()
+            
+            val layoutParams = GridLayout.LayoutParams(
+                GridLayout.spec(GridLayout.UNDEFINED, 1f),
+                GridLayout.spec(GridLayout.UNDEFINED, 1f)
+            ).apply {
+                width = 0
+                height = ViewGroup.LayoutParams.WRAP_CONTENT
             }
+            optionBtn.layoutParams = layoutParams
+            
+            optionBtn.setOnClickListener { checkAnswer(option, optionBtn) }
             optionsContainerLayout.addView(optionBtn)
         }
     }
 
-    private fun checkAnswer(selectedOption: Int, button: Button) {
+    private fun checkAnswer(selectedOption: Int, card: MaterialCardView) {
         if (selectedOption == currentData.total) {
-            button.setBackgroundResource(R.drawable.btn_rounded_correct)
-            android.widget.Toast.makeText(this, "Great Job!", android.widget.Toast.LENGTH_SHORT).show()
+            card.setCardBackgroundColor("#66BB6A".toColorInt())
+            Toast.makeText(this, "Great Job!", Toast.LENGTH_SHORT).show()
             
             for (i in 0 until optionsContainerLayout.childCount) {
                 optionsContainerLayout.getChildAt(i).isEnabled = false
             }
 
-            button.postDelayed({ loadNextQuestion() }, 1000)
+            card.postDelayed({ loadNextQuestion() }, 1000)
         } else {
-            button.setBackgroundResource(R.drawable.btn_rounded_wrong)
-            val shake = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.shake)
-            button.startAnimation(shake)
-            android.widget.Toast.makeText(this, "Oops, try again!", android.widget.Toast.LENGTH_SHORT).show()
+            card.setCardBackgroundColor("#EF5350".toColorInt())
+            val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
+            card.startAnimation(shake)
+            Toast.makeText(this, "Oops, try again!", Toast.LENGTH_SHORT).show()
         }
     }
 }

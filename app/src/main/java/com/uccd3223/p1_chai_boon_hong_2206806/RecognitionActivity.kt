@@ -2,16 +2,21 @@ package com.uccd3223.p1_chai_boon_hong_2206806
 
 import android.os.Bundle
 import android.widget.Button
-import android.widget.LinearLayout
+import android.widget.GridLayout
 import android.widget.TextView
+import android.widget.Toast
+import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import androidx.core.graphics.toColorInt
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.card.MaterialCardView
 import com.uccd3223.p1_chai_boon_hong_2206806.util.ExerciseGeneratorUtil
 import kotlin.random.Random
 
 class RecognitionActivity : AppCompatActivity() {
 
     private lateinit var tvTarget: TextView
-    private lateinit var optionsContainerLayout: LinearLayout
+    private lateinit var optionsContainerLayout: GridLayout
     private lateinit var currentData: ExerciseGeneratorUtil.RecognitionData
     private var lastTarget: Int = -1
 
@@ -43,47 +48,49 @@ class RecognitionActivity : AppCompatActivity() {
         
         currentData = ExerciseGeneratorUtil.generateRecognitionOptions(target, 50, 4)
 
-        tvTarget.text = "Find the number: ${currentData.targetNumber}"
+        tvTarget.text = currentData.targetNumber.toString()
         renderOptionsUI()
     }
 
     private fun renderOptionsUI() {
-        val dpScale = resources.displayMetrics.density
-        val margin = (8 * dpScale).toInt()
+        val colors = listOf("#9C27B0", "#1368CE", "#D89E00", "#00BCD4")
 
-        for (option in currentData.options) {
-            val optionBtn = Button(this).apply {
-                text = option.toString()
-                textSize = 36f
-                setTextColor(android.graphics.Color.WHITE)
-                setBackgroundResource(R.drawable.btn_rounded_primary)
-                layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                ).apply {
-                    setMargins(margin, margin, margin, margin)
-                }
-                setOnClickListener { checkAnswer(option, this) }
+        for ((index, option) in currentData.options.withIndex()) {
+            val optionBtn = layoutInflater.inflate(R.layout.item_answer_choicer, optionsContainerLayout, false) as MaterialCardView
+            optionBtn.setCardBackgroundColor(colors[index].toColorInt())
+            
+            val tv = optionBtn.findViewById<TextView>(R.id.answerChoicerText)
+            tv.text = option.toString()
+            
+            val layoutParams = GridLayout.LayoutParams(
+                GridLayout.spec(GridLayout.UNDEFINED, 1f),
+                GridLayout.spec(GridLayout.UNDEFINED, 1f)
+            ).apply {
+                width = 0
+                height = ViewGroup.LayoutParams.WRAP_CONTENT
             }
+            optionBtn.layoutParams = layoutParams
+
+            optionBtn.setOnClickListener { checkAnswer(option, optionBtn) }
             optionsContainerLayout.addView(optionBtn)
         }
     }
 
-    private fun checkAnswer(selectedOption: Int, button: Button) {
+    private fun checkAnswer(selectedOption: Int, card: MaterialCardView) {
         if (selectedOption == currentData.targetNumber) {
-            button.setBackgroundResource(R.drawable.btn_rounded_correct)
-            android.widget.Toast.makeText(this, "Great Job!", android.widget.Toast.LENGTH_SHORT).show()
+            card.setCardBackgroundColor("#66BB6A".toColorInt())
+            Toast.makeText(this, "Great Job!", Toast.LENGTH_SHORT).show()
             
             for (i in 0 until optionsContainerLayout.childCount) {
                 optionsContainerLayout.getChildAt(i).isEnabled = false
             }
 
-            button.postDelayed({ loadNextQuestion() }, 1000)
+            card.postDelayed({ loadNextQuestion() }, 1000)
         } else {
-            button.setBackgroundResource(R.drawable.btn_rounded_wrong)
-            val shake = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.shake)
-            button.startAnimation(shake)
-            android.widget.Toast.makeText(this, "Oops, try again!", android.widget.Toast.LENGTH_SHORT).show()
+            card.setCardBackgroundColor("#EF5350".toColorInt())
+            val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
+            card.startAnimation(shake)
+            Toast.makeText(this, "Oops, try again!", Toast.LENGTH_SHORT).show()
         }
     }
 }

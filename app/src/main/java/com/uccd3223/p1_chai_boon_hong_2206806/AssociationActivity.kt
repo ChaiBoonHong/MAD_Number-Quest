@@ -1,18 +1,21 @@
 package com.uccd3223.p1_chai_boon_hong_2206806
 
-import android.graphics.Color
+import androidx.core.graphics.toColorInt
 import android.os.Bundle
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
+import android.widget.Toast
+import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.card.MaterialCardView
 import com.uccd3223.p1_chai_boon_hong_2206806.util.ExerciseGeneratorUtil
 
 class AssociationActivity : AppCompatActivity() {
 
     private lateinit var objectsGridLayout: GridLayout
-    private lateinit var optionsContainerLayout: LinearLayout
+    private lateinit var optionsContainerLayout: GridLayout
     private var targetCount: Int = 0
     private var lastTargetCount: Int = -1
 
@@ -53,9 +56,8 @@ class AssociationActivity : AppCompatActivity() {
 
         for (i in 0 until targetCount) {
             val itemView = ImageView(this).apply {
-                // In a real app we'd load a drawable like an apple or star.
-                // Here we use a colored box as a placeholder visually representing an object.
-                setBackgroundColor(Color.parseColor("#FF9800"))
+                setImageResource(R.drawable.game_apple)
+                scaleType = ImageView.ScaleType.FIT_CENTER
                 val layoutParams = GridLayout.LayoutParams().apply {
                     width = size
                     height = size
@@ -68,46 +70,46 @@ class AssociationActivity : AppCompatActivity() {
     }
 
     private fun renderOptionsUI() {
-        val dpScale = resources.displayMetrics.density
-        val margin = (8 * dpScale).toInt()
-        
-        val optionsData = ExerciseGeneratorUtil.generateRecognitionOptions(targetCount, 9, 3)
+        val optionsData = ExerciseGeneratorUtil.generateRecognitionOptions(targetCount, 9, 4)
 
-        for (option in optionsData.options) {
-            val optionBtn = Button(this).apply {
-                text = option.toString()
-                textSize = 28f
-                setTextColor(Color.WHITE)
-                setBackgroundResource(R.drawable.btn_rounded_primary)
-                val layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                ).apply {
-                    setMargins(margin, margin, margin, margin)
-                }
-                this.layoutParams = layoutParams
+        val colors = listOf("#9C27B0", "#1368CE", "#D89E00", "#00BCD4")
 
-                setOnClickListener { checkAnswer(option, this) }
+        for ((index, option) in optionsData.options.withIndex()) {
+            val optionBtn = layoutInflater.inflate(R.layout.item_answer_choicer, optionsContainerLayout, false) as MaterialCardView
+            optionBtn.setCardBackgroundColor(colors[index].toColorInt())
+            
+            val tv = optionBtn.findViewById<android.widget.TextView>(R.id.answerChoicerText)
+            tv.text = option.toString()
+            
+            val layoutParams = GridLayout.LayoutParams(
+                GridLayout.spec(GridLayout.UNDEFINED, 1f),
+                GridLayout.spec(GridLayout.UNDEFINED, 1f)
+            ).apply {
+                width = 0
+                height = ViewGroup.LayoutParams.WRAP_CONTENT
             }
+            optionBtn.layoutParams = layoutParams
+
+            optionBtn.setOnClickListener { checkAnswer(option, optionBtn) }
             optionsContainerLayout.addView(optionBtn)
         }
     }
 
-    private fun checkAnswer(selectedOption: Int, button: Button) {
+    private fun checkAnswer(selectedOption: Int, card: MaterialCardView) {
         if (selectedOption == targetCount) {
-            button.setBackgroundResource(R.drawable.btn_rounded_correct)
-            android.widget.Toast.makeText(this, "Great Job!", android.widget.Toast.LENGTH_SHORT).show()
+            card.setCardBackgroundColor("#66BB6A".toColorInt())
+            Toast.makeText(this, "Great Job!", Toast.LENGTH_SHORT).show()
             
             for (i in 0 until optionsContainerLayout.childCount) {
                 optionsContainerLayout.getChildAt(i).isEnabled = false
             }
 
-            button.postDelayed({ loadNextQuestion() }, 1000)
+            card.postDelayed({ loadNextQuestion() }, 1000)
         } else {
-            button.setBackgroundResource(R.drawable.btn_rounded_wrong)
-            val shake = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.shake)
-            button.startAnimation(shake)
-            android.widget.Toast.makeText(this, "Oops, try again!", android.widget.Toast.LENGTH_SHORT).show()
+            card.setCardBackgroundColor("#EF5350".toColorInt())
+            val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
+            card.startAnimation(shake)
+            Toast.makeText(this, "Oops, try again!", Toast.LENGTH_SHORT).show()
         }
     }
 }

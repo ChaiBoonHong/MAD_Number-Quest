@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">P1-Chai_Boon_Hong-2206806</string>
+    <string name="back">← Back</string>
+    <string name="kids_math_fun">Kids Math Fun!</string>
+    <string name="number_association_title">Number\nAssociation</string>
+    <string name="place_value_title">Place\nValue</string>
+    <string name="number_recognition_title">Number\nRecognition</string>
+    <string name="number_sequence_title">Number\nSequence</string>
+    <string name="how_many_objects">How many objects are there?</string>
+    <string name="how_many_tens_ones">How many Tens and Ones?</string>
+    <string name="find_the_number">Find the number:</string>
+    <string name="find_the_missing_number">Find the missing number!</string>
+    <string name="zero">0</string>
 </resources>

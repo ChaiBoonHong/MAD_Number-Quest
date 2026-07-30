@@ -4,16 +4,13 @@ plugins {
 
 android {
     namespace = "com.uccd3223.p1_chai_boon_hong_2206806"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.uccd3223.p1_chai_boon_hong_2206806"
         minSdk = 28
-        targetSdk = 36
+        //noinspection ManuallyEditedTargetSdkVersion
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
 
@@ -41,6 +38,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.flexbox)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
