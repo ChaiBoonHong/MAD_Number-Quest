@@ -50,15 +50,33 @@ object ExerciseGeneratorUtil {
      */
     fun generateRecognitionOptions(targetNumber: Int, maxRange: Int, numOptions: Int): RecognitionData {
         val options = mutableSetOf(targetNumber)
-        val offset = 5 // Options will be within +/- 5 of the target
-        while (options.size < numOptions) {
-            val minBound = maxOf(1, targetNumber - offset)
-            val maxBound = minOf(maxRange, targetNumber + offset)
-            // Guard: if the valid range is already exhausted, break to avoid an infinite loop
-            if (maxBound < minBound) break
-            val distractor = Random.nextInt(minBound, maxBound + 1)
-            options.add(distractor)
+        
+        if (targetNumber >= 10) {
+            val targetOnes = targetNumber % 10
+            val possibleDistractors = (10..maxRange).filter { it % 10 == targetOnes && it != targetNumber }.shuffled()
+            options.addAll(possibleDistractors.take(numOptions - 1))
+            
+            var attempts = 0
+            while (options.size < numOptions && attempts < 100) {
+                val minBound = maxOf(10, targetNumber - 10)
+                val maxBound = minOf(maxRange, targetNumber + 10)
+                if (maxBound >= minBound) {
+                    options.add(Random.nextInt(minBound, maxBound + 1))
+                }
+                attempts++
+            }
+        } else {
+            val offset = 5 // Options will be within +/- 5 of the target
+            var attempts = 0
+            while (options.size < numOptions && attempts < 100) {
+                val minBound = maxOf(1, targetNumber - offset)
+                val maxBound = minOf(maxRange, targetNumber + offset)
+                if (maxBound < minBound) break
+                options.add(Random.nextInt(minBound, maxBound + 1))
+                attempts++
+            }
         }
+        
         return RecognitionData(targetNumber, options.toList().shuffled())
     }
 
