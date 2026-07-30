@@ -4,14 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
-import com.google.android.material.switchmaterial.SwitchMaterial
+import com.google.android.material.materialswitch.MaterialSwitch
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val modeSwitch = findViewById<SwitchMaterial>(R.id.modeSwitch)
+        val modeSwitch = findViewById<MaterialSwitch>(R.id.modeSwitch)
 
         fun getSelectedMode(): String {
             return if (modeSwitch.isChecked) "PK" else "FUN"

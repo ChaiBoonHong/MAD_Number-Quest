@@ -58,7 +58,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/text_primary" />
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/modeSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
