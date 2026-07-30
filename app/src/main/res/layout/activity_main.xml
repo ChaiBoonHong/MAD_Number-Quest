@@ -5,15 +5,66 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F0F8FF"
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Kids Math Fun!"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:layout_marginTop="64dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleTextView">
+
+        <Button
+            android:id="@+id/btnAssociation"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:textSize="18sp"
+            android:padding="16dp"
+            android:text="Number Association" />
+
+        <Button
+            android:id="@+id/btnPlaceValue"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:textSize="18sp"
+            android:padding="16dp"
+            android:text="Place Value" />
+
+        <Button
+            android:id="@+id/btnRecognition"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:textSize="18sp"
+            android:padding="16dp"
+            android:text="Number Recognition" />
+
+        <Button
+            android:id="@+id/btnSequence"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:padding="16dp"
+            android:text="Number Sequence" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
