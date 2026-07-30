@@ -4,26 +4,41 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.switchmaterial.SwitchMaterial
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val modeSwitch = findViewById<SwitchMaterial>(R.id.modeSwitch)
+
+        fun getSelectedMode(): String {
+            return if (modeSwitch.isChecked) "PK" else "FUN"
+        }
+
         findViewById<MaterialCardView>(R.id.cardSequence).setOnClickListener {
-            startActivity(Intent(this, SequenceActivity::class.java))
+            val intent = Intent(this, SequenceActivity::class.java)
+            intent.putExtra("GAME_MODE", getSelectedMode())
+            startActivity(intent)
         }
         
         findViewById<MaterialCardView>(R.id.cardAssociation).setOnClickListener {
-            startActivity(Intent(this, AssociationActivity::class.java))
+            val intent = Intent(this, AssociationActivity::class.java)
+            intent.putExtra("GAME_MODE", getSelectedMode())
+            startActivity(intent)
         }
         
         findViewById<MaterialCardView>(R.id.cardPlaceValue).setOnClickListener {
-            startActivity(Intent(this, PlaceValueActivity::class.java))
+            val intent = Intent(this, PlaceValueActivity::class.java)
+            intent.putExtra("GAME_MODE", getSelectedMode())
+            startActivity(intent)
         }
         
         findViewById<MaterialCardView>(R.id.cardRecognition).setOnClickListener {
-            startActivity(Intent(this, RecognitionActivity::class.java))
+            val intent = Intent(this, RecognitionActivity::class.java)
+            intent.putExtra("GAME_MODE", getSelectedMode())
+            startActivity(intent)
         }
     }
 }

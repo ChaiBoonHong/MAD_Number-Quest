@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">P1-Chai_Boon_Hong-2206806</string>
     <string name="back">← Back</string>
-    <string name="kids_math_fun">Kids Math Fun!</string>
+    <string name="kids_math_fun">Number Explorer!</string>
     <string name="number_association_title">Number\nAssociation</string>
     <string name="place_value_title">Place\nValue</string>
     <string name="number_recognition_title">Number\nRecognition</string>
