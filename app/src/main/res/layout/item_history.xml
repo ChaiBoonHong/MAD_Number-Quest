@@ -27,10 +27,12 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipMode"
+            style="@style/Widget.Material3.Chip.Assist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="12dp"
             android:textSize="12sp"
+            app:ensureMinTouchTargetSize="false"
             app:layout_constraintBottom_toBottomOf="@+id/tvGameName"
             app:layout_constraintStart_toEndOf="@+id/tvGameName"
             app:layout_constraintTop_toTopOf="@+id/tvGameName"

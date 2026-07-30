@@ -22,6 +22,7 @@ class SequenceActivity : BaseGameActivity() {
 
     private lateinit var sequenceContainerLayout: com.google.android.flexbox.FlexboxLayout
     private lateinit var optionsContainerLayout: com.google.android.flexbox.FlexboxLayout
+    private lateinit var tvFeedback: android.widget.TextView
     private lateinit var targetSortedSequence: List<Int>
     private lateinit var shuffledOptions: List<Int>
     private var completedCount: Int = 0
@@ -39,6 +40,7 @@ class SequenceActivity : BaseGameActivity() {
     private fun initializeUI() {
         sequenceContainerLayout = findViewById(R.id.sequenceContainerLayout)
         optionsContainerLayout = findViewById(R.id.optionsContainerLayout)
+        tvFeedback = findViewById(R.id.tvFeedback)
         
         findViewById<Button>(R.id.btnBack).setOnClickListener {
             finish()
@@ -111,14 +113,26 @@ class SequenceActivity : BaseGameActivity() {
                             completedCount++
                             
                             if (completedCount == targetSortedSequence.size) {
-                                Toast.makeText(this@SequenceActivity, "Great Job!", Toast.LENGTH_SHORT).show()
+                                tvFeedback.text = "Great Job!"
+                                tvFeedback.setTextColor("#66BB6A".toColorInt())
+                                tvFeedback.visibility = View.VISIBLE
+                                
+                                tvFeedback.postDelayed({
+                                    if (tvFeedback.text == "Great Job!") {
+                                        tvFeedback.visibility = View.INVISIBLE
+                                    }
+                                }, 1000)
+                                
                                 onQuestionCompleted()
-                                v.postDelayed({ loadNextQuestion() }, 1000)
+                                loadNextQuestion()
                             }
                         } else {
                             // Incorrect placement
-                            Toast.makeText(this, "Oops, that goes somewhere else!", Toast.LENGTH_SHORT).show()
-                            val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
+                            tvFeedback.text = "Oops, try again!"
+                            tvFeedback.setTextColor("#EF5350".toColorInt())
+                            tvFeedback.visibility = View.VISIBLE
+                            
+                            val shake = AnimationUtils.loadAnimation(this@SequenceActivity, R.anim.shake)
                             v.startAnimation(shake)
                         }
                         true

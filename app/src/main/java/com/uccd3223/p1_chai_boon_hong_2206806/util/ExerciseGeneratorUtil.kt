@@ -50,31 +50,59 @@ object ExerciseGeneratorUtil {
      */
     fun generateRecognitionOptions(targetNumber: Int, maxRange: Int, numOptions: Int): RecognitionData {
         val options = mutableSetOf(targetNumber)
+        val pool = mutableSetOf<Int>()
         
         if (targetNumber >= 10) {
-            val targetOnes = targetNumber % 10
-            val possibleDistractors = (10..maxRange).filter { it % 10 == targetOnes && it != targetNumber }.shuffled()
-            options.addAll(possibleDistractors.take(numOptions - 1))
+            // Reversed digits (e.g. 45 -> 54)
+            val reversed = (targetNumber % 10) * 10 + (targetNumber / 10)
+            if (reversed != targetNumber && reversed <= maxRange) pool.add(reversed)
             
-            var attempts = 0
-            while (options.size < numOptions && attempts < 100) {
-                val minBound = maxOf(10, targetNumber - 10)
-                val maxBound = minOf(maxRange, targetNumber + 10)
-                if (maxBound >= minBound) {
-                    options.add(Random.nextInt(minBound, maxBound + 1))
-                }
-                attempts++
+            // Off by 10 (e.g. 45 -> 35, 55)
+            if (targetNumber - 10 > 0) pool.add(targetNumber - 10)
+            if (targetNumber + 10 <= maxRange) pool.add(targetNumber + 10)
+            
+            // Off by 1 (e.g. 45 -> 44, 46)
+            if (targetNumber - 1 > 0) pool.add(targetNumber - 1)
+            if (targetNumber + 1 <= maxRange) pool.add(targetNumber + 1)
+            
+            // Same tens, different ones
+            val tensBase = (targetNumber / 10) * 10
+            pool.add(tensBase + Random.nextInt(0, 10))
+            
+            // Same ones, different tens
+            val ones = targetNumber % 10
+            val maxTensDigit = maxRange / 10
+            if (maxTensDigit > 0) {
+                pool.add(Random.nextInt(1, maxTensDigit + 1) * 10 + ones)
             }
         } else {
-            val offset = 5 // Options will be within +/- 5 of the target
-            var attempts = 0
-            while (options.size < numOptions && attempts < 100) {
-                val minBound = maxOf(1, targetNumber - offset)
-                val maxBound = minOf(maxRange, targetNumber + offset)
-                if (maxBound < minBound) break
+            // Target < 10
+            if (targetNumber - 1 > 0) pool.add(targetNumber - 1)
+            if (targetNumber + 1 <= maxRange) pool.add(targetNumber + 1)
+            if (targetNumber - 2 > 0) pool.add(targetNumber - 2)
+            if (targetNumber + 2 <= maxRange) pool.add(targetNumber + 2)
+        }
+
+        // Filter valid candidates and take what we need
+        val validPool = pool.filter { it != targetNumber && it in 1..maxRange }.shuffled()
+        options.addAll(validPool.take(numOptions - 1))
+        
+        // Fill remaining with random close numbers if needed
+        var attempts = 0
+        while (options.size < numOptions && attempts < 100) {
+            val minBound = maxOf(1, targetNumber - 10)
+            val maxBound = minOf(maxRange, targetNumber + 10)
+            if (maxBound >= minBound) {
                 options.add(Random.nextInt(minBound, maxBound + 1))
-                attempts++
             }
+            attempts++
+        }
+        
+        // Final fallback to fill remaining
+        attempts = 0
+        while (options.size < numOptions && attempts < 100) {
+            options.add(Random.nextInt(1, maxRange + 1))
+            attempts++
         }
         
         return RecognitionData(targetNumber, options.toList().shuffled())

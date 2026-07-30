@@ -28,11 +28,15 @@ class HistoryAdapter(private val records: List<HistoryRecord>) : RecyclerView.Ad
         val record = records[position]
         holder.tvGameName.text = record.gameName
         
-        holder.chipMode.text = when (record.mode) {
-            "FUN" -> "Fun Mode"
-            "TIME_ATTACK" -> "Time Attack"
-            "SCORE_ATTACK" -> "Score Attack"
-            else -> record.mode
+        if (record.mode == "FUN") {
+            holder.chipMode.visibility = View.GONE
+        } else {
+            holder.chipMode.visibility = View.VISIBLE
+            holder.chipMode.text = when (record.mode) {
+                "TIME_ATTACK" -> "Time Attack"
+                "SCORE_ATTACK" -> "Score Attack"
+                else -> record.mode
+            }
         }
         
         holder.tvScore.text = if (record.mode == "SCORE_ATTACK") "Round ${record.score}" else "${record.score} pts"

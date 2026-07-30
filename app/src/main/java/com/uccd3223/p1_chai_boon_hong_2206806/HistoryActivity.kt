@@ -6,7 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
+import com.google.android.material.tabs.TabLayout
+
 class HistoryActivity : AppCompatActivity() {
+
+    private lateinit var rvHistory: RecyclerView
+    private lateinit var historyList: List<HistoryRecord>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,10 +21,30 @@ class HistoryActivity : AppCompatActivity() {
             finish()
         }
 
-        val rvHistory = findViewById<RecyclerView>(R.id.rvHistory)
+        rvHistory = findViewById(R.id.rvHistory)
         rvHistory.layoutManager = LinearLayoutManager(this)
         
-        val historyList = HistoryManager.getHistory(this)
-        rvHistory.adapter = HistoryAdapter(historyList)
+        historyList = HistoryManager.getHistory(this)
+        
+        val tabLayout = findViewById<TabLayout>(R.id.tabLayoutMode)
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                updateList(tab?.position ?: 0)
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+        })
+
+        // Initial load
+        updateList(0)
+    }
+    
+    private fun updateList(tabPosition: Int) {
+        val filteredList = if (tabPosition == 0) {
+            historyList.filter { it.mode == "FUN" }
+        } else {
+            historyList.filter { it.mode != "FUN" }
+        }
+        rvHistory.adapter = HistoryAdapter(filteredList)
     }
 }

@@ -18,6 +18,7 @@ class PlaceValueActivity : BaseGameActivity() {
 
     private lateinit var visualContainerLayout: FlexboxLayout
     private lateinit var optionsContainerLayout: GridLayout
+    private lateinit var tvFeedback: android.widget.TextView
     private lateinit var currentData: ExerciseGeneratorUtil.PlaceValueData
     private var lastTotal: Int = -1
 
@@ -34,6 +35,7 @@ class PlaceValueActivity : BaseGameActivity() {
     private fun initializeUI() {
         visualContainerLayout = findViewById(R.id.visualContainerLayout)
         optionsContainerLayout = findViewById(R.id.optionsContainerLayout)
+        tvFeedback = findViewById(R.id.tvFeedback)
         
         findViewById<Button>(R.id.btnBack).setOnClickListener {
             finish()
@@ -126,19 +128,28 @@ class PlaceValueActivity : BaseGameActivity() {
     private fun checkAnswer(selectedOption: Int, card: MaterialCardView) {
         if (selectedOption == currentData.total) {
             card.setCardBackgroundColor("#66BB6A".toColorInt())
-            Toast.makeText(this, "Great Job!", Toast.LENGTH_SHORT).show()
-            onQuestionCompleted()
             
-            for (i in 0 until optionsContainerLayout.childCount) {
-                optionsContainerLayout.getChildAt(i).isEnabled = false
-            }
+            tvFeedback.text = "Great Job!"
+            tvFeedback.setTextColor("#66BB6A".toColorInt())
+            tvFeedback.visibility = android.view.View.VISIBLE
+            
+            tvFeedback.postDelayed({
+                if (tvFeedback.text == "Great Job!") {
+                    tvFeedback.visibility = android.view.View.INVISIBLE
+                }
+            }, 1000)
 
-            card.postDelayed({ loadNextQuestion() }, 1000)
+            onQuestionCompleted()
+            loadNextQuestion()
         } else {
             card.setCardBackgroundColor("#EF5350".toColorInt())
+            
+            tvFeedback.text = "Oops, try again!"
+            tvFeedback.setTextColor("#EF5350".toColorInt())
+            tvFeedback.visibility = android.view.View.VISIBLE
+            
             val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
             card.startAnimation(shake)
-            Toast.makeText(this, "Oops, try again!", Toast.LENGTH_SHORT).show()
         }
     }
 }
