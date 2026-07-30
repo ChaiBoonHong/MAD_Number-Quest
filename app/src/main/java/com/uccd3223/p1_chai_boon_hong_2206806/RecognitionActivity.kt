@@ -13,7 +13,7 @@ import com.google.android.material.card.MaterialCardView
 import com.uccd3223.p1_chai_boon_hong_2206806.util.ExerciseGeneratorUtil
 import kotlin.random.Random
 
-class RecognitionActivity : AppCompatActivity() {
+class RecognitionActivity : BaseGameActivity() {
 
     private lateinit var tvTarget: TextView
     private lateinit var optionsContainerLayout: GridLayout
@@ -23,6 +23,8 @@ class RecognitionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recognition)
+        
+        setupGameModeUI()
 
         initializeUI()
         loadNextQuestion()
@@ -80,6 +82,7 @@ class RecognitionActivity : AppCompatActivity() {
         if (selectedOption == currentData.targetNumber) {
             card.setCardBackgroundColor("#66BB6A".toColorInt())
             Toast.makeText(this, "Great Job!", Toast.LENGTH_SHORT).show()
+            onQuestionCompleted()
             
             for (i in 0 until optionsContainerLayout.childCount) {
                 optionsContainerLayout.getChildAt(i).isEnabled = false

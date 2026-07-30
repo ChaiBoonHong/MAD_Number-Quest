@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
 import com.uccd3223.p1_chai_boon_hong_2206806.util.ExerciseGeneratorUtil
 
-class AssociationActivity : AppCompatActivity() {
+class AssociationActivity : BaseGameActivity() {
 
     private lateinit var objectsGridLayout: GridLayout
     private lateinit var optionsContainerLayout: GridLayout
@@ -22,6 +22,8 @@ class AssociationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_association)
+        
+        setupGameModeUI()
 
         initializeUI()
         loadNextQuestion()
@@ -120,6 +122,7 @@ class AssociationActivity : AppCompatActivity() {
         if (selectedOption == targetCount) {
             card.setCardBackgroundColor("#66BB6A".toColorInt())
             Toast.makeText(this, "Great Job!", Toast.LENGTH_SHORT).show()
+            onQuestionCompleted()
             
             for (i in 0 until optionsContainerLayout.childCount) {
                 optionsContainerLayout.getChildAt(i).isEnabled = false

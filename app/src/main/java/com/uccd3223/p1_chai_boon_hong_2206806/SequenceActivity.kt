@@ -18,7 +18,7 @@ import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.card.MaterialCardView
 import com.uccd3223.p1_chai_boon_hong_2206806.util.ExerciseGeneratorUtil
 
-class SequenceActivity : AppCompatActivity() {
+class SequenceActivity : BaseGameActivity() {
 
     private lateinit var sequenceContainerLayout: com.google.android.flexbox.FlexboxLayout
     private lateinit var optionsContainerLayout: com.google.android.flexbox.FlexboxLayout
@@ -29,6 +29,8 @@ class SequenceActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sequence)
+        
+        setupGameModeUI()
 
         initializeUI()
         loadNextQuestion()
@@ -109,7 +111,8 @@ class SequenceActivity : AppCompatActivity() {
                             completedCount++
                             
                             if (completedCount == targetSortedSequence.size) {
-                                Toast.makeText(this, "Great Job!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@SequenceActivity, "Great Job!", Toast.LENGTH_SHORT).show()
+                                onQuestionCompleted()
                                 v.postDelayed({ loadNextQuestion() }, 1000)
                             }
                         } else {

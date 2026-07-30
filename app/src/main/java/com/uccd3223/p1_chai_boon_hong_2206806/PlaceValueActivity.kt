@@ -14,7 +14,7 @@ import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.card.MaterialCardView
 import com.uccd3223.p1_chai_boon_hong_2206806.util.ExerciseGeneratorUtil
 
-class PlaceValueActivity : AppCompatActivity() {
+class PlaceValueActivity : BaseGameActivity() {
 
     private lateinit var visualContainerLayout: FlexboxLayout
     private lateinit var optionsContainerLayout: GridLayout
@@ -24,6 +24,8 @@ class PlaceValueActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_place_value)
+        
+        setupGameModeUI()
 
         initializeUI()
         loadNextQuestion()
@@ -125,6 +127,7 @@ class PlaceValueActivity : AppCompatActivity() {
         if (selectedOption == currentData.total) {
             card.setCardBackgroundColor("#66BB6A".toColorInt())
             Toast.makeText(this, "Great Job!", Toast.LENGTH_SHORT).show()
+            onQuestionCompleted()
             
             for (i in 0 until optionsContainerLayout.childCount) {
                 optionsContainerLayout.getChildAt(i).isEnabled = false
