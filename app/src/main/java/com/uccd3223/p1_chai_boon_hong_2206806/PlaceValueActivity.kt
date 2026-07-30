@@ -3,6 +3,7 @@ package com.uccd3223.p1_chai_boon_hong_2206806
 import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
+import android.widget.GridLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -10,9 +11,10 @@ import com.uccd3223.p1_chai_boon_hong_2206806.util.ExerciseGeneratorUtil
 
 class PlaceValueActivity : AppCompatActivity() {
 
-    private lateinit var visualContainerLayout: LinearLayout
+    private lateinit var visualContainerLayout: GridLayout
     private lateinit var optionsContainerLayout: LinearLayout
     private lateinit var currentData: ExerciseGeneratorUtil.PlaceValueData
+    private var lastTotal: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,13 +27,20 @@ class PlaceValueActivity : AppCompatActivity() {
     private fun initializeUI() {
         visualContainerLayout = findViewById(R.id.visualContainerLayout)
         optionsContainerLayout = findViewById(R.id.optionsContainerLayout)
+        
+        findViewById<Button>(R.id.btnBack).setOnClickListener {
+            finish()
+        }
     }
 
     private fun loadNextQuestion() {
         visualContainerLayout.removeAllViews()
         optionsContainerLayout.removeAllViews()
 
-        currentData = ExerciseGeneratorUtil.generatePlaceValue(9)
+        do {
+            currentData = ExerciseGeneratorUtil.generatePlaceValue(9)
+        } while (currentData.total == lastTotal)
+        lastTotal = currentData.total
 
         renderVisualUI()
         renderOptionsUI()
@@ -50,10 +59,7 @@ class PlaceValueActivity : AppCompatActivity() {
                 setTextColor(Color.WHITE)
                 setBackgroundColor(Color.parseColor("#E91E63"))
                 setPadding(padding, padding, padding, padding)
-                layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                ).apply {
+                layoutParams = GridLayout.LayoutParams().apply {
                     setMargins(margin, margin, margin, margin)
                 }
             }
@@ -68,10 +74,7 @@ class PlaceValueActivity : AppCompatActivity() {
                 setTextColor(Color.WHITE)
                 setBackgroundColor(Color.parseColor("#2196F3"))
                 setPadding(padding, padding, padding, padding)
-                layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                ).apply {
+                layoutParams = GridLayout.LayoutParams().apply {
                     setMargins(margin, margin, margin, margin)
                 }
             }

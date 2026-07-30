@@ -13,6 +13,7 @@ class RecognitionActivity : AppCompatActivity() {
     private lateinit var tvTarget: TextView
     private lateinit var optionsContainerLayout: LinearLayout
     private lateinit var currentData: ExerciseGeneratorUtil.RecognitionData
+    private var lastTarget: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,13 +26,22 @@ class RecognitionActivity : AppCompatActivity() {
     private fun initializeUI() {
         tvTarget = findViewById(R.id.tvTarget)
         optionsContainerLayout = findViewById(R.id.optionsContainerLayout)
+        
+        findViewById<Button>(R.id.btnBack).setOnClickListener {
+            finish()
+        }
     }
 
     private fun loadNextQuestion() {
         optionsContainerLayout.removeAllViews()
 
-        val target = Random.nextInt(1, 20)
-        currentData = ExerciseGeneratorUtil.generateRecognitionOptions(target, 20, 4)
+        var target: Int
+        do {
+            target = Random.nextInt(1, 50)
+        } while (target == lastTarget)
+        lastTarget = target
+        
+        currentData = ExerciseGeneratorUtil.generateRecognitionOptions(target, 50, 4)
 
         tvTarget.text = "Find the number: ${currentData.targetNumber}"
         renderOptionsUI()

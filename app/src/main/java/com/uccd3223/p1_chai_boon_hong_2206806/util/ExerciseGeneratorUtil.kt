@@ -34,12 +34,16 @@ object ExerciseGeneratorUtil {
 
     /**
      * 3. Numbers Recognition
-     * Generates a target number and a shuffled list of distractor options.
+     * Generates a target number and a shuffled list of distractor options that are similar (close) to the target.
      */
     fun generateRecognitionOptions(targetNumber: Int, maxRange: Int, numOptions: Int): RecognitionData {
         val options = mutableSetOf(targetNumber)
+        val offset = 5 // Options will be within +/- 5 of the target
         while (options.size < numOptions) {
-            options.add(Random.nextInt(1, maxRange + 1))
+            val minBound = maxOf(1, targetNumber - offset)
+            val maxBound = minOf(maxRange, targetNumber + offset)
+            val distractor = Random.nextInt(minBound, maxBound + 1)
+            options.add(distractor)
         }
         return RecognitionData(targetNumber, options.toList().shuffled())
     }

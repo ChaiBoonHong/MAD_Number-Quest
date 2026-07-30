@@ -14,6 +14,7 @@ class SequenceActivity : AppCompatActivity() {
     private lateinit var sequenceContainerLayout: LinearLayout
     private lateinit var optionsContainerLayout: LinearLayout
     private lateinit var currentQuestion: ExerciseGeneratorUtil.SequenceData
+    private var lastStart: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,14 +27,24 @@ class SequenceActivity : AppCompatActivity() {
     private fun initializeUI() {
         sequenceContainerLayout = findViewById(R.id.sequenceContainerLayout)
         optionsContainerLayout = findViewById(R.id.optionsContainerLayout)
+        
+        findViewById<Button>(R.id.btnBack).setOnClickListener {
+            finish()
+        }
     }
 
     private fun loadNextQuestion() {
         sequenceContainerLayout.removeAllViews()
         optionsContainerLayout.removeAllViews()
 
-        val start = Random.nextInt(1, 6)
-        currentQuestion = ExerciseGeneratorUtil.generateSequence(start, 1, 4)
+        var start: Int
+        do {
+            start = Random.nextInt(1, 25)
+        } while (start == lastStart)
+        lastStart = start
+        
+        val step = Random.nextInt(1, 5)
+        currentQuestion = ExerciseGeneratorUtil.generateSequence(start, step, 5)
 
         renderSequenceUI()
         renderOptionsUI()

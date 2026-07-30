@@ -14,6 +14,7 @@ class AssociationActivity : AppCompatActivity() {
     private lateinit var objectsGridLayout: GridLayout
     private lateinit var optionsContainerLayout: LinearLayout
     private var targetCount: Int = 0
+    private var lastTargetCount: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,13 +27,20 @@ class AssociationActivity : AppCompatActivity() {
     private fun initializeUI() {
         objectsGridLayout = findViewById(R.id.objectsGridLayout)
         optionsContainerLayout = findViewById(R.id.optionsContainerLayout)
+        
+        findViewById<Button>(R.id.btnBack).setOnClickListener {
+            finish()
+        }
     }
 
     private fun loadNextQuestion() {
         objectsGridLayout.removeAllViews()
         optionsContainerLayout.removeAllViews()
 
-        targetCount = ExerciseGeneratorUtil.generateObjectCount(9)
+        do {
+            targetCount = ExerciseGeneratorUtil.generateObjectCount(15)
+        } while (targetCount == lastTargetCount)
+        lastTargetCount = targetCount
 
         renderObjectsUI()
         renderOptionsUI()
