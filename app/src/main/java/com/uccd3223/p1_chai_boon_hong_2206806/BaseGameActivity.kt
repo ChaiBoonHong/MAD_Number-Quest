@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 
 open class BaseGameActivity : AppCompatActivity() {
 
+    private var isHistorySaved = false
+
     protected var gameMode: String = "FUN"
     protected var score: Int = 0 // Also acts as questions answered for Score Attack
     protected var timeElapsed: Int = 0
@@ -145,6 +147,8 @@ open class BaseGameActivity : AppCompatActivity() {
         val finalScore = if (gameMode == "SCORE_ATTACK") currentRound else score
         val isNewHighScore = finalScore > highScore
         
+        saveHistoryRecord(finalScore)
+        
         if (isNewHighScore) {
             prefs.edit().putInt(key, finalScore).apply()
         }
@@ -170,8 +174,23 @@ open class BaseGameActivity : AppCompatActivity() {
             .show()
     }
 
+    private fun saveHistoryRecord(finalScore: Int) {
+        if (isHistorySaved) return
+        val record = HistoryRecord(
+            gameName = this.javaClass.simpleName.replace("Activity", ""),
+            mode = gameMode,
+            score = finalScore,
+            timestamp = System.currentTimeMillis()
+        )
+        HistoryManager.saveRecord(this, record)
+        isHistorySaved = true
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         countDownTimer?.cancel()
+        if (gameMode == "FUN" && score > 0) {
+            saveHistoryRecord(score)
+        }
     }
 }

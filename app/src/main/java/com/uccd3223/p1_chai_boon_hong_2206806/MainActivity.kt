@@ -12,6 +12,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val modeSwitch = findViewById<com.google.android.material.materialswitch.MaterialSwitch>(R.id.modeSwitch)
+        val btnHistory = findViewById<com.google.android.material.button.MaterialButton>(R.id.btnHistory)
+        
+        btnHistory.setOnClickListener {
+            startActivity(Intent(this, HistoryActivity::class.java))
+        }
 
         fun getSelectedMode(): String {
             return if (modeSwitch.isChecked) "CHALLENGE" else "FUN"
