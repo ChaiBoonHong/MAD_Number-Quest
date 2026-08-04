@@ -4,11 +4,32 @@ import kotlin.random.Random
 
 object ExerciseGeneratorUtil {
 
+    enum class SortDirection { ASCENDING, DESCENDING }
+
+    enum class RecognitionPromptMode { WORD_TO_NUMBER, NUMBER_TO_WORD }
+
     data class PlaceValueData(val tens: Int, val ones: Int) {
         val total: Int get() = (tens * 10) + ones
     }
 
     data class RecognitionData(val targetNumber: Int, val options: List<Int>)
+
+    data class RecognitionExercise(
+        val targetNumber: Int,
+        val options: List<Int>,
+        val promptMode: RecognitionPromptMode
+    )
+
+    data class SortExercise(
+        val options: List<Int>,
+        val direction: SortDirection
+    ) {
+        val orderedNumbers: List<Int>
+            get() = when (direction) {
+                SortDirection.ASCENDING -> options.sorted()
+                SortDirection.DESCENDING -> options.sortedDescending()
+            }
+    }
 
     data class SequenceData(val sequence: IntArray, val missingIndex: Int) {
         val missingValue: Int get() = sequence[missingIndex]
@@ -51,66 +72,49 @@ object ExerciseGeneratorUtil {
      * Generates a target number and a shuffled list of distractor options that are similar (close) to the target.
      */
     fun generateRecognitionOptions(targetNumber: Int, maxRange: Int, numOptions: Int): RecognitionData {
-        require(maxRange >= 1) { "maxRange must be at least 1" }
-        require(targetNumber in 1..maxRange) { "targetNumber must be inside maxRange" }
-        require(numOptions in 1..maxRange) { "numOptions must be between 1 and maxRange" }
-        val options = mutableSetOf(targetNumber)
-        val pool = mutableSetOf<Int>()
-        
-        if (targetNumber >= 10) {
-            // Reversed digits (e.g. 45 -> 54)
-            val reversed = (targetNumber % 10) * 10 + (targetNumber / 10)
-            if (reversed != targetNumber && reversed <= maxRange) pool.add(reversed)
-            
-            // Off by 10 (e.g. 45 -> 35, 55)
-            if (targetNumber - 10 > 0) pool.add(targetNumber - 10)
-            if (targetNumber + 10 <= maxRange) pool.add(targetNumber + 10)
-            
-            // Off by 1 (e.g. 45 -> 44, 46)
-            if (targetNumber - 1 > 0) pool.add(targetNumber - 1)
-            if (targetNumber + 1 <= maxRange) pool.add(targetNumber + 1)
-            
-            // Same tens, different ones
-            val tensBase = (targetNumber / 10) * 10
-            pool.add(tensBase + Random.nextInt(0, 10))
-            
-            // Same ones, different tens
-            val ones = targetNumber % 10
-            val maxTensDigit = maxRange / 10
-            if (maxTensDigit > 0) {
-                pool.add(Random.nextInt(1, maxTensDigit + 1) * 10 + ones)
-            }
-        } else {
-            // Target < 10
-            if (targetNumber - 1 > 0) pool.add(targetNumber - 1)
-            if (targetNumber + 1 <= maxRange) pool.add(targetNumber + 1)
-            if (targetNumber - 2 > 0) pool.add(targetNumber - 2)
-            if (targetNumber + 2 <= maxRange) pool.add(targetNumber + 2)
+        require(maxRange >= 0) { "maxRange must not be negative" }
+        require(targetNumber in 0..maxRange) { "targetNumber must be inside maxRange" }
+        require(numOptions in 1..(maxRange + 1)) {
+            "numOptions must fit inside the learning range"
         }
 
-        // Filter valid candidates and take what we need
-        val validPool = pool.filter { it != targetNumber && it in 1..maxRange }.shuffled()
-        options.addAll(validPool.take(numOptions - 1))
-        
-        // Fill remaining with random close numbers if needed
-        var attempts = 0
-        while (options.size < numOptions && attempts < 100) {
-            val minBound = maxOf(1, targetNumber - 10)
-            val maxBound = minOf(maxRange, targetNumber + 10)
-            if (maxBound >= minBound) {
-                options.add(Random.nextInt(minBound, maxBound + 1))
-            }
-            attempts++
+        val preferred = linkedSetOf<Int>()
+        if (targetNumber >= 10) {
+            preferred += (targetNumber % 10) * 10 + (targetNumber / 10)
         }
-        
-        // Final fallback to fill remaining
-        attempts = 0
-        while (options.size < numOptions && attempts < 100) {
-            options.add(Random.nextInt(1, maxRange + 1))
-            attempts++
+        preferred += targetNumber - 10
+        preferred += targetNumber + 10
+        preferred += targetNumber - 2
+        preferred += targetNumber + 2
+        preferred += targetNumber - 1
+        preferred += targetNumber + 1
+
+        val options = linkedSetOf(targetNumber)
+        preferred
+            .filter { it != targetNumber && it in 0..maxRange }
+            .shuffled()
+            .forEach { if (options.size < numOptions) options += it }
+
+        (0..maxRange)
+            .filter { it !in options }
+            .shuffled()
+            .forEach { if (options.size < numOptions) options += it }
+
+        return RecognitionData(targetNumber, options.shuffled())
+    }
+
+    fun generateRecognitionExercise(
+        maxRange: Int = 99,
+        numOptions: Int = 4,
+        targetNumber: Int = Random.nextInt(0, maxRange + 1),
+        promptMode: RecognitionPromptMode = if (Random.nextBoolean()) {
+            RecognitionPromptMode.WORD_TO_NUMBER
+        } else {
+            RecognitionPromptMode.NUMBER_TO_WORD
         }
-        
-        return RecognitionData(targetNumber, options.toList().shuffled())
+    ): RecognitionExercise {
+        val data = generateRecognitionOptions(targetNumber, maxRange, numOptions)
+        return RecognitionExercise(data.targetNumber, data.options, promptMode)
     }
 
     /**
@@ -148,5 +152,37 @@ object ExerciseGeneratorUtil {
             numbers.add(Random.nextInt(1, maxNumber + 1))
         }
         return numbers.toList()
+    }
+
+    fun generateSortExercise(
+        length: Int,
+        minNumber: Int = 0,
+        maxNumber: Int = 99,
+        direction: SortDirection = if (Random.nextBoolean()) {
+            SortDirection.ASCENDING
+        } else {
+            SortDirection.DESCENDING
+        }
+    ): SortExercise {
+        require(minNumber >= 0) { "minNumber must not be negative" }
+        require(maxNumber <= 99) { "maxNumber must be no more than 99" }
+        require(minNumber <= maxNumber) { "minNumber must not exceed maxNumber" }
+        require(length in 1..(maxNumber - minNumber + 1)) {
+            "length must fit inside the learning range"
+        }
+
+        val numbers = mutableSetOf<Int>()
+        while (numbers.size < length) {
+            numbers += Random.nextInt(minNumber, maxNumber + 1)
+        }
+        return SortExercise(numbers.toList().shuffled(), direction)
+    }
+
+    fun balloonRowPattern(count: Int): List<Int> = when (count) {
+        3 -> listOf(3)
+        4 -> listOf(2, 2)
+        5 -> listOf(3, 2)
+        6 -> listOf(3, 3)
+        else -> throw IllegalArgumentException("Balloon count must be between 3 and 6")
     }
 }

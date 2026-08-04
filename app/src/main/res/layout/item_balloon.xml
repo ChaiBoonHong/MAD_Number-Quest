@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.uccd3223.p1_chai_boon_hong_2206806.BalloonFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
@@ -8,4 +8,4 @@
     android:padding="5dp">
     <ImageView android:id="@+id/balloonBg" android:layout_width="match_parent" android:layout_height="match_parent" android:contentDescription="@null" android:scaleType="fitCenter" android:src="@drawable/ic_balloon" />
     <TextView android:id="@+id/balloonText" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginBottom="13dp" android:gravity="center" android:textColor="@color/game_navy" android:textSize="27sp" android:textStyle="bold" />
-</FrameLayout>
+</com.uccd3223.p1_chai_boon_hong_2206806.BalloonFrameLayout>

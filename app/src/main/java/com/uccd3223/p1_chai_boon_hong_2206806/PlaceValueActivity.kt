@@ -1,156 +1,199 @@
 package com.uccd3223.p1_chai_boon_hong_2206806
 
-import androidx.core.graphics.toColorInt
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.TextView
-import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.card.MaterialCardView
 import com.uccd3223.p1_chai_boon_hong_2206806.util.ExerciseGeneratorUtil
+import java.util.Locale
 
 class PlaceValueActivity : BaseGameActivity() {
 
-    private lateinit var visualContainerLayout: FlexboxLayout
+    private lateinit var tensContainerLayout: FlexboxLayout
+    private lateinit var onesContainerLayout: FlexboxLayout
     private lateinit var optionsContainerLayout: GridLayout
-    private lateinit var tvFeedback: android.widget.TextView
+    private lateinit var tvTensCount: TextView
+    private lateinit var tvOnesCount: TextView
+    private lateinit var tvFeedback: TextView
     private lateinit var currentData: ExerciseGeneratorUtil.PlaceValueData
-    private var lastTotal: Int = -1
+    private var currentOptions = emptyList<Int>()
+    private var lastTotal = -1
+    private var questionLocked = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_place_value)
-        
         setupGameModeUI()
-
         initializeUI()
-        loadNextQuestion()
-    }
 
-    private fun initializeUI() {
-        visualContainerLayout = findViewById(R.id.visualContainerLayout)
-        optionsContainerLayout = findViewById(R.id.optionsContainerLayout)
-        tvFeedback = findViewById(R.id.tvFeedback)
-        
-        findViewById<Button>(R.id.btnBack).setOnClickListener {
-            finish()
+        if (savedInstanceState?.containsKey(STATE_TENS) == true) {
+            restoreQuestion(savedInstanceState)
+        } else {
+            loadNextQuestion()
         }
     }
 
-    private fun loadNextQuestion() {
-        visualContainerLayout.removeAllViews()
-        optionsContainerLayout.removeAllViews()
+    private fun initializeUI() {
+        tensContainerLayout = findViewById(R.id.tensContainerLayout)
+        onesContainerLayout = findViewById(R.id.onesContainerLayout)
+        optionsContainerLayout = findViewById(R.id.optionsContainerLayout)
+        tvTensCount = findViewById(R.id.tvTensCount)
+        tvOnesCount = findViewById(R.id.tvOnesCount)
+        tvFeedback = findViewById(R.id.tvFeedback)
+        findViewById<Button>(R.id.btnBack).setOnClickListener { finish() }
+    }
 
+    private fun loadNextQuestion() {
+        questionLocked = false
+        resetFeedback(tvFeedback)
         do {
             currentData = ExerciseGeneratorUtil.generatePlaceValue(9)
         } while (currentData.total == lastTotal)
         lastTotal = currentData.total
+        currentOptions = ExerciseGeneratorUtil
+            .generateRecognitionOptions(currentData.total, 99, 4)
+            .options
+        renderQuestion()
+    }
 
+    private fun restoreQuestion(state: Bundle) {
+        currentData = ExerciseGeneratorUtil.PlaceValueData(
+            tens = state.getInt(STATE_TENS),
+            ones = state.getInt(STATE_ONES)
+        )
+        lastTotal = state.getInt(STATE_LAST_TOTAL, currentData.total)
+        questionLocked = state.getBoolean(STATE_QUESTION_LOCKED)
+        currentOptions = state.getIntegerArrayList(STATE_OPTIONS)?.toList().orEmpty()
+        if (currentOptions.size != 4) {
+            currentOptions = ExerciseGeneratorUtil
+                .generateRecognitionOptions(currentData.total, 99, 4)
+                .options
+        }
+        renderQuestion()
+        if (questionLocked) {
+            restoreCompletedAnswerChoice(
+                optionsContainerLayout,
+                currentData.total,
+                tvFeedback,
+                successMessage(),
+                ::loadNextQuestion
+            )
+        }
+    }
+
+    private fun renderQuestion() {
         renderVisualUI()
         renderOptionsUI()
     }
 
     private fun renderVisualUI() {
-        val dpScale = resources.displayMetrics.density
-        
-        // Dynamically calculate unit size to fit within the 1:1 square border
-        // A Tens block is 1 unit wide, 10 units tall. A Ones block is 1 unit wide, 1 unit tall.
-        val totalBlocks = currentData.tens + currentData.ones
-        val unitSizeDp = when {
-            totalBlocks <= 6 -> 24
-            totalBlocks <= 12 -> 20
-            else -> 18
-        }
-        val marginDp = 4
-        
-        val margin = (marginDp * dpScale).toInt()
-        val unitSize = (unitSizeDp * dpScale).toInt()
-        val tensHeight = unitSize * 10
+        tensContainerLayout.removeAllViews()
+        onesContainerLayout.removeAllViews()
+        tvTensCount.text = resources.getQuantityString(
+            R.plurals.tens_count,
+            currentData.tens,
+            currentData.tens
+        )
+        tvOnesCount.text = resources.getQuantityString(
+            R.plurals.ones_count,
+            currentData.ones,
+            currentData.ones
+        )
 
-        // Tens
-        for (i in 0 until currentData.tens) {
-            val tensView = ImageView(this).apply {
+        val density = resources.displayMetrics.density
+        val margin = (3 * density).toInt()
+        val tensWidth = (18 * density).toInt()
+        val tensHeight = (118 * density).toInt()
+        val oneSize = (28 * density).toInt()
+
+        repeat(currentData.tens) {
+            val view = ImageView(this).apply {
                 setImageResource(R.drawable.ic_tens_block)
                 scaleType = ImageView.ScaleType.FIT_XY
-                val newLayoutParams = FlexboxLayout.LayoutParams(unitSize, tensHeight).apply {
+                contentDescription = getString(R.string.ten_block_description)
+                importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_YES
+                layoutParams = FlexboxLayout.LayoutParams(tensWidth, tensHeight).apply {
                     setMargins(margin, margin, margin, margin)
                 }
-                this.layoutParams = newLayoutParams
             }
-            visualContainerLayout.addView(tensView)
+            tensContainerLayout.addView(view)
         }
 
-        // Ones
-        for (i in 0 until currentData.ones) {
-            val onesView = ImageView(this).apply {
+        repeat(currentData.ones) {
+            val view = ImageView(this).apply {
                 setImageResource(R.drawable.ic_ones_block)
                 scaleType = ImageView.ScaleType.FIT_XY
-                val newLayoutParams = FlexboxLayout.LayoutParams(unitSize, unitSize).apply {
+                contentDescription = getString(R.string.one_block_description)
+                importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_YES
+                layoutParams = FlexboxLayout.LayoutParams(oneSize, oneSize).apply {
                     setMargins(margin, margin, margin, margin)
                 }
-                this.layoutParams = newLayoutParams
             }
-            visualContainerLayout.addView(onesView)
+            onesContainerLayout.addView(view)
         }
     }
 
     private fun renderOptionsUI() {
-        val optionsData = ExerciseGeneratorUtil.generateRecognitionOptions(currentData.total, 99, 4)
-
-        val colors = listOf("#9C27B0", "#1368CE", "#D89E00", "#00BCD4")
-
-        for ((index, option) in optionsData.options.withIndex()) {
-            val optionBtn = layoutInflater.inflate(R.layout.item_answer_choicer, optionsContainerLayout, false) as MaterialCardView
-            optionBtn.setCardBackgroundColor(colors[index].toColorInt())
-            
-            val tv = optionBtn.findViewById<TextView>(R.id.answerChoicerText)
-            tv.text = getString(R.string.number_value, option)
-            optionBtn.contentDescription = getString(R.string.answer_number, option)
-            
-            val layoutParams = GridLayout.LayoutParams(
-                GridLayout.spec(GridLayout.UNDEFINED, 1f),
-                GridLayout.spec(GridLayout.UNDEFINED, 1f)
-            ).apply {
-                width = 0
-                height = ViewGroup.LayoutParams.WRAP_CONTENT
-            }
-            optionBtn.layoutParams = layoutParams
-            
-            optionBtn.setOnClickListener { checkAnswer(option, optionBtn) }
-            optionsContainerLayout.addView(optionBtn)
+        val choices = currentOptions.map { option ->
+            AnswerChoice(
+                value = option,
+                label = getString(R.string.number_value, option),
+                contentDescription = getString(R.string.answer_number, option)
+            )
+        }
+        renderAnswerChoices(optionsContainerLayout, choices) { choice, card ->
+            checkAnswer(choice.value, card)
         }
     }
 
     private fun checkAnswer(selectedOption: Int, card: MaterialCardView) {
+        if (questionLocked || isGameOver) return
         if (selectedOption == currentData.total) {
-            card.setCardBackgroundColor("#66BB6A".toColorInt())
-            for (i in 0 until optionsContainerLayout.childCount) {
-                optionsContainerLayout.getChildAt(i).isEnabled = false
-            }
-            
-            tvFeedback.setText(R.string.great_job)
-            tvFeedback.setTextColor("#66BB6A".toColorInt())
-            tvFeedback.visibility = android.view.View.VISIBLE
-            
-            tvFeedback.postDelayed({
-                if (!isGameOver) {
-                    onQuestionCompleted()
-                    loadNextQuestion()
-                    tvFeedback.visibility = android.view.View.INVISIBLE
-                }
-            }, 550)
+            questionLocked = true
+            completeAnswerChoice(
+                optionsContainerLayout,
+                card,
+                tvFeedback,
+                successMessage(),
+                ::loadNextQuestion
+            )
         } else {
-            card.setCardBackgroundColor("#EF5350".toColorInt())
-            
-            tvFeedback.setText(R.string.try_again)
-            tvFeedback.setTextColor("#EF5350".toColorInt())
-            tvFeedback.visibility = android.view.View.VISIBLE
-            
-            val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
-            card.startAnimation(shake)
+            retryAnswerChoice(card, tvFeedback, getString(R.string.place_value_retry))
         }
+    }
+
+    private fun successMessage(): String {
+        val placeParts = getString(
+            R.string.number_words_pair,
+            resources.getQuantityString(R.plurals.tens_count, currentData.tens, currentData.tens),
+            resources.getQuantityString(R.plurals.ones_count, currentData.ones, currentData.ones)
+        )
+        val numberWords = ExerciseGeneratorUtil
+            .numberToWords(currentData.total)
+            .lowercase(Locale.getDefault())
+        return getString(R.string.place_value_success, placeParts, numberWords)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        if (::currentData.isInitialized) {
+            outState.putInt(STATE_TENS, currentData.tens)
+            outState.putInt(STATE_ONES, currentData.ones)
+        }
+        outState.putInt(STATE_LAST_TOTAL, lastTotal)
+        outState.putIntegerArrayList(STATE_OPTIONS, ArrayList(currentOptions))
+        outState.putBoolean(STATE_QUESTION_LOCKED, questionLocked)
+        super.onSaveInstanceState(outState)
+    }
+
+    companion object {
+        private const val STATE_TENS = "place_value_tens"
+        private const val STATE_ONES = "place_value_ones"
+        private const val STATE_LAST_TOTAL = "place_value_last_total"
+        private const val STATE_OPTIONS = "place_value_options"
+        private const val STATE_QUESTION_LOCKED = "place_value_question_locked"
     }
 }

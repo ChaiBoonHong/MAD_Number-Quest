@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="game_screen_margin">18dp</dimen>
+    <dimen name="game_header_top_margin">14dp</dimen>
+    <dimen name="answer_tray_margin">12dp</dimen>
+    <dimen name="answer_tray_padding">12dp</dimen>
+    <dimen name="answer_option_gap">8dp</dimen>
+    <dimen name="answer_option_min_height">72dp</dimen>
+    <dimen name="balloon_size">86dp</dimen>
+    <dimen name="balloon_gap">4dp</dimen>
+</resources>

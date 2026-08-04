@@ -15,4 +15,12 @@
     <color name="game_orange_soft">#FFF1DE</color>
     <color name="game_green">#35B77A</color>
     <color name="game_green_soft">#E3F8EE</color>
+    <color name="answer_purple">#7438B8</color>
+    <color name="answer_blue">#1E64C8</color>
+    <color name="answer_gold">#966200</color>
+    <color name="answer_teal">#087780</color>
+    <color name="answer_correct">#2E7D32</color>
+    <color name="answer_retry">#C33C3C</color>
+    <color name="game_star">#FFC928</color>
+    <color name="game_balloon_pink">#EC5F9E</color>
 </resources>

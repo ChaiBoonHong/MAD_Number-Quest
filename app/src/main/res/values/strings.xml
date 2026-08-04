@@ -16,14 +16,45 @@
     <string name="number_sequence_title">Number Order</string>
     <string name="number_sequence_desc">Sort from small to big</string>
 
-    <string name="how_many_objects">How many apples can you count?</string>
+    <string name="how_many_objects">How many can you count?</string>
+    <string name="count_apples_prompt">How many apples can you count?</string>
+    <string name="count_stars_prompt">How many stars can you count?</string>
+    <string name="count_balloons_prompt">How many balloons can you count?</string>
+    <string name="count_object_apple">Apple</string>
+    <string name="count_object_star">Star</string>
+    <string name="count_object_balloon">Balloon</string>
     <string name="how_many_tens_ones">What number do the blocks make?</string>
+    <plurals name="tens_count">
+        <item quantity="one">%1$d ten</item>
+        <item quantity="other">%1$d tens</item>
+    </plurals>
+    <plurals name="ones_count">
+        <item quantity="one">%1$d one</item>
+        <item quantity="other">%1$d ones</item>
+    </plurals>
+    <string name="ten_block_description">A block worth ten</string>
+    <string name="one_block_description">A block worth one</string>
     <string name="find_the_number">Which number matches this word?</string>
+    <string name="find_the_word">Which words match this number?</string>
     <string name="find_the_missing_number">Put the numbers in order</string>
     <string name="start_with_smallest">Drag or tap the smallest number first</string>
+    <string name="start_with_biggest">Drag or tap the biggest number first</string>
     <string name="choose_answer">Choose your answer</string>
     <string name="great_job">Great job! ⭐</string>
-    <string name="try_again">Almost! Try again</string>
+    <string name="count_success">Great counting! You found %1$d.</string>
+    <string name="count_retry">Almost! Count each picture again.</string>
+    <string name="place_value_success">%1$s make %2$s.</string>
+    <string name="place_value_retry">Almost! Look at the tens and ones again.</string>
+    <string name="recognition_success">Great matching! %1$s matches %2$s.</string>
+    <string name="recognition_retry">Almost! Read the word and try again.</string>
+    <string name="recognition_retry_number">Almost! Say the number and try again.</string>
+    <string name="sequence_success_small">Great! Smallest to biggest.</string>
+    <string name="sequence_success_big">Great! Biggest to smallest.</string>
+    <string name="sequence_retry_small">Almost! Find the smallest number next.</string>
+    <string name="sequence_retry_big">Almost! Find the biggest number next.</string>
+    <string name="position_empty">Position %1$d of %2$d, empty</string>
+    <string name="position_filled">Position %1$d of %2$d, number %3$d</string>
+    <string name="correct_mark">✓</string>
 
     <string name="time_format">⏱ %ds</string>
     <string name="score_format">⭐ %d</string>
@@ -52,11 +83,13 @@
     <string name="one_twenty_seconds_hint">Mega game</string>
 
     <string name="game_history">My Trophy Shelf</string>
+    <string name="trophy_icon">🏆</string>
     <string name="history">Trophies</string>
     <string name="history_empty">Play a game to earn your first trophy!</string>
     <string name="answer_number">Number %1$d</string>
     <string name="number_value">%1$d</string>
     <string name="drag_number">Number %1$d. Drag or tap to place it.</string>
+    <string name="answer_text">Answer %1$s</string>
     <string name="round_reached">Round %1$d</string>
     <plurals name="points_earned">
         <item quantity="one">%1$d star</item>
@@ -64,7 +97,6 @@
     </plurals>
     <string name="mode_time_attack">Time Attack</string>
     <string name="mode_score_attack">Round Rush</string>
-    <string name="challenge_complete">Challenge complete!</string>
     <string name="main_menu">Main menu</string>
     <string name="play_again">Play again</string>
     <string name="new_high_score">New high score! 🏆</string>
@@ -74,6 +106,8 @@
         <item quantity="other">Time is up! You earned %1$d stars.</item>
     </plurals>
     <string name="round_rush_result">Time is up! You reached round %1$d.</string>
+    <string name="result_title">Quest complete!</string>
+    <string name="number_words_pair">%1$s and %2$s</string>
     <plurals name="next_round">
         <item quantity="one">Round %1$d! You have %2$d second.</item>
         <item quantity="other">Round %1$d! You have %2$d seconds.</item>

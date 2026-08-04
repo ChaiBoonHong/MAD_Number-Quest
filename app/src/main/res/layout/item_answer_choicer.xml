@@ -3,12 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/answerChoicerCard"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="6dp"
+    android:layout_height="@dimen/answer_option_min_height"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
-    android:minHeight="76dp"
+    android:minHeight="@dimen/answer_option_min_height"
     app:cardCornerRadius="22dp"
     app:cardElevation="3dp"
     app:strokeColor="#22FFFFFF"
@@ -16,16 +15,31 @@
     <FrameLayout
         android:id="@+id/answerChoicerBg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="76dp"
-        android:padding="14dp">
+        android:layout_height="match_parent"
+        android:padding="12dp">
         <TextView
             android:id="@+id/answerChoicerText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:breakStrategy="balanced"
             android:gravity="center"
+            android:hyphenationFrequency="none"
+            android:includeFontPadding="false"
+            android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="30sp"
+            android:textSize="28sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/answerStateIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:importantForAccessibility="no"
+            android:text="@string/correct_mark"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
     </FrameLayout>
 </com.google.android.material.card.MaterialCardView>
