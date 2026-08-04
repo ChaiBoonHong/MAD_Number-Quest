@@ -7,14 +7,16 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
-import com.google.android.material.tabs.TabLayout
+import com.google.android.material.button.MaterialButton
 
 class HistoryActivity : AppCompatActivity() {
 
     private lateinit var rvHistory: RecyclerView
     private lateinit var historyList: List<HistoryRecord>
     private lateinit var tvEmptyHistory: TextView
+    private lateinit var btnHistoryFun: MaterialButton
+    private lateinit var btnHistoryChallenge: MaterialButton
+    private var selectedModeIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,17 +32,19 @@ class HistoryActivity : AppCompatActivity() {
         
         historyList = HistoryManager.getHistory(this)
         
-        val tabLayout = findViewById<TabLayout>(R.id.tabLayoutMode)
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                updateList(tab?.position ?: 0)
-            }
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
-        })
+        btnHistoryFun = findViewById(R.id.btnHistoryFun)
+        btnHistoryChallenge = findViewById(R.id.btnHistoryChallenge)
+        btnHistoryFun.setOnClickListener { selectMode(0) }
+        btnHistoryChallenge.setOnClickListener { selectMode(1) }
 
-        // Initial load
-        updateList(0)
+        selectMode(savedInstanceState?.getInt(STATE_SELECTED_MODE) ?: 0)
+    }
+
+    private fun selectMode(modeIndex: Int) {
+        selectedModeIndex = modeIndex.coerceIn(0, 1)
+        btnHistoryFun.isChecked = selectedModeIndex == 0
+        btnHistoryChallenge.isChecked = selectedModeIndex == 1
+        updateList(selectedModeIndex)
     }
     
     private fun updateList(tabPosition: Int) {
@@ -51,5 +55,14 @@ class HistoryActivity : AppCompatActivity() {
         }
         rvHistory.adapter = HistoryAdapter(filteredList)
         tvEmptyHistory.visibility = if (filteredList.isEmpty()) View.VISIBLE else View.GONE
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt(STATE_SELECTED_MODE, selectedModeIndex)
+        super.onSaveInstanceState(outState)
+    }
+
+    companion object {
+        private const val STATE_SELECTED_MODE = "history_selected_mode"
     }
 }

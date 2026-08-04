@@ -21,6 +21,10 @@
         <item name="backgroundTint">@color/game_blue_soft</item>
         <item name="android:textColor">@color/game_blue_dark</item>
     </style>
+    <style name="ShapeAppearanceOverlay.NumberQuest.HomeIcon" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">14dp</item>
+    </style>
     <style name="FullScreenDialogTheme" parent="Theme.Material3.Light.Dialog">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>

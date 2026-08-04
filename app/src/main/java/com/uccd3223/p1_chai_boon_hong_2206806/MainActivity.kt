@@ -3,6 +3,7 @@ package com.uccd3223.p1_chai_boon_hong_2206806
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import android.widget.TextView
 
@@ -11,7 +12,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val modeSwitch = findViewById<com.google.android.material.materialswitch.MaterialSwitch>(R.id.modeSwitch)
+        val btnFunMode = findViewById<MaterialButton>(R.id.btnFunMode)
+        val btnChallengeMode = findViewById<MaterialButton>(R.id.btnChallengeMode)
         val tvModeHint = findViewById<TextView>(R.id.tvModeHint)
         val btnHistory = findViewById<com.google.android.material.button.MaterialButton>(R.id.btnHistory)
         
@@ -19,12 +21,23 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, HistoryActivity::class.java))
         }
 
-        modeSwitch.setOnCheckedChangeListener { _, isChecked ->
-            tvModeHint.setText(if (isChecked) R.string.challenge_mode_hint else R.string.fun_mode_hint)
+        fun selectMode(isChallenge: Boolean) {
+            btnFunMode.isChecked = !isChallenge
+            btnChallengeMode.isChecked = isChallenge
+            tvModeHint.setText(
+                if (isChallenge) R.string.challenge_mode_hint else R.string.fun_mode_hint
+            )
         }
 
+        btnFunMode.setOnClickListener { selectMode(false) }
+        btnChallengeMode.setOnClickListener { selectMode(true) }
+
         fun getSelectedMode(): String {
-            return if (modeSwitch.isChecked) "CHALLENGE" else "FUN"
+            return if (btnChallengeMode.isChecked) {
+                "CHALLENGE"
+            } else {
+                "FUN"
+            }
         }
         
         fun handleGameSelection(activityClass: Class<*>) {

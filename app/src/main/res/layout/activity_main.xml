@@ -83,43 +83,64 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp">
+                android:orientation="vertical"
+                android:padding="12dp">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:id="@+id/modeChoiceRow"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/choose_mode"
-                        android:textColor="@color/game_navy"
-                        android:textSize="17sp"
-                        android:textStyle="bold" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnFunMode"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="52dp"
+                        android:layout_marginEnd="3dp"
+                        android:layout_weight="1"
+                        android:checkable="true"
+                        android:checked="true"
+                        android:text="@string/fun_mode"
+                        android:textAllCaps="false"
+                        android:textColor="@color/mode_toggle_text"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/mode_toggle_background"
+                        app:cornerRadius="18dp"
+                        app:strokeColor="@color/mode_toggle_stroke"
+                        app:strokeWidth="1dp" />
 
-                    <TextView
-                        android:id="@+id/tvModeHint"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:text="@string/fun_mode_hint"
-                        android:textColor="@color/game_text_muted"
-                        android:textSize="13sp" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnChallengeMode"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="52dp"
+                        android:layout_marginStart="3dp"
+                        android:layout_weight="1"
+                        android:checkable="true"
+                        android:text="@string/challenge_mode"
+                        android:textAllCaps="false"
+                        android:textColor="@color/mode_toggle_text"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/mode_toggle_background"
+                        app:cornerRadius="18dp"
+                        app:strokeColor="@color/mode_toggle_stroke"
+                        app:strokeWidth="1dp" />
                 </LinearLayout>
 
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/modeSwitch"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/tvModeHint"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:contentDescription="@string/challenge_mode"
-                    android:minHeight="52dp"
-                    android:text="@string/challenge_mode"
-                    android:textColor="@color/game_navy"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="8dp"
+                    android:accessibilityLiveRegion="polite"
+                    android:gravity="center"
+                    android:text="@string/fun_mode_hint"
+                    android:textColor="@color/game_text_muted"
+                    android:textSize="13sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -152,7 +173,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardAssociation"
                 android:layout_width="0dp"
-                android:layout_height="190dp"
+                android:layout_height="204dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="6dp"
                 android:clickable="true"
@@ -170,17 +191,23 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="16dp">
-                    <ImageView android:layout_width="76dp" android:layout_height="76dp" android:contentDescription="@null" android:src="@drawable/icon_association" />
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:gravity="center" android:text="@string/number_association_title" android:textColor="@color/game_navy" android:textSize="18sp" android:textStyle="bold" />
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:gravity="center" android:text="@string/number_association_desc" android:textColor="@color/game_text_muted" android:textSize="12sp" />
+                    android:padding="12dp">
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:contentDescription="@null"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_count_children"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.NumberQuest.HomeIcon" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:gravity="center" android:includeFontPadding="false" android:maxLines="2" android:minHeight="48dp" android:text="@string/number_association_title" android:textColor="@color/game_navy" android:textSize="17sp" android:textStyle="bold" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="top|center_horizontal" android:includeFontPadding="false" android:maxLines="2" android:minHeight="36dp" android:text="@string/number_association_desc" android:textColor="@color/game_text_muted" android:textSize="12sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardPlaceValue"
                 android:layout_width="0dp"
-                android:layout_height="190dp"
+                android:layout_height="204dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="6dp"
                 android:clickable="true"
@@ -192,17 +219,17 @@
                 app:cardElevation="2dp"
                 app:strokeColor="@color/game_green"
                 app:strokeWidth="2dp">
-                <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:padding="16dp">
-                    <ImageView android:layout_width="76dp" android:layout_height="76dp" android:contentDescription="@null" android:src="@drawable/icon_place_value" />
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:gravity="center" android:text="@string/place_value_title" android:textColor="@color/game_navy" android:textSize="18sp" android:textStyle="bold" />
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:gravity="center" android:text="@string/place_value_desc" android:textColor="@color/game_text_muted" android:textSize="12sp" />
+                <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:padding="12dp">
+                    <ImageView android:layout_width="70dp" android:layout_height="70dp" android:contentDescription="@null" android:scaleType="fitCenter" android:src="@drawable/icon_place_value" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:gravity="center" android:includeFontPadding="false" android:maxLines="2" android:minHeight="48dp" android:text="@string/place_value_title" android:textColor="@color/game_navy" android:textSize="17sp" android:textStyle="bold" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="top|center_horizontal" android:includeFontPadding="false" android:maxLines="2" android:minHeight="36dp" android:text="@string/place_value_desc" android:textColor="@color/game_text_muted" android:textSize="12sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardRecognition"
                 android:layout_width="0dp"
-                android:layout_height="190dp"
+                android:layout_height="204dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="6dp"
                 android:clickable="true"
@@ -214,17 +241,23 @@
                 app:cardElevation="2dp"
                 app:strokeColor="@color/game_purple"
                 app:strokeWidth="2dp">
-                <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:padding="16dp">
-                    <ImageView android:layout_width="76dp" android:layout_height="76dp" android:contentDescription="@null" android:src="@drawable/icon_recognition" />
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:gravity="center" android:text="@string/number_recognition_title" android:textColor="@color/game_navy" android:textSize="18sp" android:textStyle="bold" />
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:gravity="center" android:text="@string/number_recognition_desc" android:textColor="@color/game_text_muted" android:textSize="12sp" />
+                <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:padding="12dp">
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:contentDescription="@null"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_word_detective_children"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.NumberQuest.HomeIcon" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:gravity="center" android:includeFontPadding="false" android:maxLines="2" android:minHeight="48dp" android:text="@string/number_recognition_title" android:textColor="@color/game_navy" android:textSize="17sp" android:textStyle="bold" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="top|center_horizontal" android:includeFontPadding="false" android:maxLines="2" android:minHeight="36dp" android:text="@string/number_recognition_desc" android:textColor="@color/game_text_muted" android:textSize="12sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardSequence"
                 android:layout_width="0dp"
-                android:layout_height="190dp"
+                android:layout_height="204dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="6dp"
                 android:clickable="true"
@@ -236,10 +269,16 @@
                 app:cardElevation="2dp"
                 app:strokeColor="@color/game_blue"
                 app:strokeWidth="2dp">
-                <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:padding="16dp">
-                    <ImageView android:layout_width="76dp" android:layout_height="76dp" android:contentDescription="@null" android:src="@drawable/icon_sequence" />
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:gravity="center" android:text="@string/number_sequence_title" android:textColor="@color/game_navy" android:textSize="18sp" android:textStyle="bold" />
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:gravity="center" android:text="@string/number_sequence_desc" android:textColor="@color/game_text_muted" android:textSize="12sp" />
+                <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:padding="12dp">
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:contentDescription="@null"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_sequence_children"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.NumberQuest.HomeIcon" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:gravity="center" android:includeFontPadding="false" android:maxLines="2" android:minHeight="48dp" android:text="@string/number_sequence_title" android:textColor="@color/game_navy" android:textSize="17sp" android:textStyle="bold" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="top|center_horizontal" android:includeFontPadding="false" android:maxLines="2" android:minHeight="36dp" android:text="@string/number_sequence_desc" android:textColor="@color/game_text_muted" android:textSize="12sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </GridLayout>

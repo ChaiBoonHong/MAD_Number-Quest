@@ -8,13 +8,13 @@
     <string name="zero">0</string>
 
     <string name="number_association_title">Count &amp; Match</string>
-    <string name="number_association_desc">Count the pictures</string>
+    <string name="number_association_desc">Count the objects</string>
     <string name="place_value_title">Tens &amp; Ones</string>
-    <string name="place_value_desc">Build big numbers</string>
+    <string name="place_value_desc">Build tens and ones</string>
     <string name="number_recognition_title">Word Detective</string>
-    <string name="number_recognition_desc">Match words to numbers</string>
+    <string name="number_recognition_desc">Match numbers and words</string>
     <string name="number_sequence_title">Number Order</string>
-    <string name="number_sequence_desc">Sort from small to big</string>
+    <string name="number_sequence_desc">Put numbers in order</string>
 
     <string name="how_many_objects">How many can you count?</string>
     <string name="count_apples_prompt">How many apples can you count?</string>
@@ -62,7 +62,6 @@
     <string name="time_initial">⏱ 0s</string>
     <string name="round_format">Round %1$d  •  %2$d/%3$d</string>
 
-    <string name="choose_mode">Choose how you want to play</string>
     <string name="fun_mode">Fun</string>
     <string name="challenge_mode">Challenge</string>
     <string name="fun_mode_hint">Relaxed play • no timer</string>
