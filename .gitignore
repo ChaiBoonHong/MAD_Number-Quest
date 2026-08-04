@@ -48,4 +48,4 @@ Desktop.ini
 # Local agent/document QA intermediates
 /AGENTS.md
 /tmp/
-/docs/.qa_*/
+**/docs/
