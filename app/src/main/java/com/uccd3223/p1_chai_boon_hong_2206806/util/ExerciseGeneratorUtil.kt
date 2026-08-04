@@ -31,6 +31,7 @@ object ExerciseGeneratorUtil {
      * Generates a random number of objects to display.
      */
     fun generateObjectCount(maxObjects: Int): Int {
+        require(maxObjects >= 1) { "maxObjects must be at least 1" }
         return Random.nextInt(1, maxObjects + 1)
     }
 
@@ -39,6 +40,7 @@ object ExerciseGeneratorUtil {
      * Generates a two-digit number broken down into tens and ones.
      */
     fun generatePlaceValue(maxTens: Int): PlaceValueData {
+        require(maxTens >= 1) { "maxTens must be at least 1" }
         val tens = Random.nextInt(1, maxTens + 1)
         val ones = Random.nextInt(0, 10)
         return PlaceValueData(tens, ones)
@@ -49,6 +51,9 @@ object ExerciseGeneratorUtil {
      * Generates a target number and a shuffled list of distractor options that are similar (close) to the target.
      */
     fun generateRecognitionOptions(targetNumber: Int, maxRange: Int, numOptions: Int): RecognitionData {
+        require(maxRange >= 1) { "maxRange must be at least 1" }
+        require(targetNumber in 1..maxRange) { "targetNumber must be inside maxRange" }
+        require(numOptions in 1..maxRange) { "numOptions must be between 1 and maxRange" }
         val options = mutableSetOf(targetNumber)
         val pool = mutableSetOf<Int>()
         
@@ -113,6 +118,7 @@ object ExerciseGeneratorUtil {
      * Generates an array representing a sequence and the index of the missing element.
      */
     fun generateSequence(start: Int, step: Int, length: Int): SequenceData {
+        require(length >= 1) { "length must be at least 1" }
         val sequence = IntArray(length) { i -> start + (i * step) }
         val missingIndex = Random.nextInt(length)
         return SequenceData(sequence, missingIndex)
@@ -135,6 +141,8 @@ object ExerciseGeneratorUtil {
     }
 
     fun generateSortSequence(length: Int, maxNumber: Int = 99): List<Int> {
+        require(maxNumber >= 1) { "maxNumber must be at least 1" }
+        require(length in 1..maxNumber) { "length must be between 1 and maxNumber" }
         val numbers = mutableSetOf<Int>()
         while (numbers.size < length) {
             numbers.add(Random.nextInt(1, maxNumber + 1))

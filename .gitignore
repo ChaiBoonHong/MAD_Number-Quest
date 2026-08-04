@@ -1,45 +1,51 @@
-# Gradle files
+# Gradle and Kotlin generated files
 .gradle/
-build/
+.kotlin/
+**/build/
 
-# Local configuration file (sdk path, etc)
+# Machine-local Android configuration
 local.properties
 
-# Log Files
-*.log
-
-# Android Studio Navigation editor temp files
+# Android Studio and IntelliJ IDEA
+.idea/
+*.iml
 .navigation/
-
-# Android Studio captures folder
 captures/
 
-# IntelliJ
-*.iml
-.idea/caches/
-.idea/libraries/
-.idea/modules.xml
-.idea/workspace.xml
-.idea/navEditor.xml
-.idea/assetWizardSettings.xml
-.idea/deploymentTargetSelector.xml
-
-# Keystore files
-*.jks
-*.keystore
-
-# External native build folder generated in Android Studio 2.2 and later
+# Native build output
 .externalNativeBuild/
 .cxx/
 
-# Google Services (e.g. APIs or Firebase)
+# Packaged Android artifacts
+*.apk
+*.aab
+*.ap_
+
+# Signing credentials and local service configuration
+*.jks
+*.keystore
+keystore.properties
 google-services.json
 
-# Mac OS X
+# Logs and diagnostic dumps
+*.log
+*.hprof
+
+# Operating-system metadata
 .DS_Store
+Thumbs.db
+Desktop.ini
 
-# Kotlin
-.kotlin/
+# Android Studio inspection exports generated at the repository root
+/.descriptions.xml
+/AndroidLint*.xml
+/Kotlin*.xml
+/*Inspection*.xml
+/ConvertTwoComparisonsToRangeCheck.xml
+/RemoveRedundantQualifierName.xml
+/UnusedSymbol.xml
 
-# Inspection results
-/*.xml
+# Local agent/document QA intermediates
+/AGENTS.md
+/tmp/
+/docs/.qa_*/

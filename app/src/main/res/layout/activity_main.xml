@@ -1,251 +1,247 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_pattern_tiled"
-    android:fitsSystemWindows="true"
+    android:background="@drawable/bg_game_gradient"
+    android:clipToPadding="false"
     android:fillViewport="true"
-    tools:ignore="Overdraw">
+    android:fitsSystemWindows="true"
+    tools:context=".MainActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".MainActivity">
-
-
-
-        <ImageView
-            android:id="@+id/logoImageView"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="32dp"
-            android:src="@drawable/logo"
-            android:contentDescription="@string/app_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnHistory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/history"
-            app:icon="@android:drawable/ic_menu_recent_history"
-            style="@style/Widget.Material3.Button.TonalButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/logoImageView" />
-
-        <LinearLayout
-            android:id="@+id/modeToggleContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnHistory">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/fun_mode"
-                android:textStyle="bold"
-                android:textColor="@color/text_primary" />
-
-            <com.google.android.material.materialswitch.MaterialSwitch
-                android:id="@+id/modeSwitch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="12dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/challenge_mode"
-                android:textStyle="bold"
-                android:textColor="@color/text_primary" />
-        </LinearLayout>
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingTop="18dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="32dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/modeToggleContainer">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <!-- Row 1 -->
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:text="@string/app_name"
+                android:textColor="@color/game_navy"
+                android:textSize="23sp"
+                android:textStyle="bold" />
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardAssociation"
-                    android:layout_width="0dp"
-                    android:layout_height="180dp"
-                    android:layout_weight="1"
-                    android:layout_margin="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="@color/white">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        android:padding="16dp"
-                        tools:ignore="UseCompoundDrawables">
-                        <ImageView
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:src="@drawable/icon_association"
-                            android:layout_marginBottom="8dp"
-                            android:contentDescription="@null" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/number_association_title"
-                            android:textStyle="bold"
-                            android:textColor="@color/text_primary"
-                            android:textSize="18sp"
-                            android:layout_marginTop="8dp"
-                            android:textAlignment="center"/>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardPlaceValue"
-                    android:layout_width="0dp"
-                    android:layout_height="180dp"
-                    android:layout_weight="1"
-                    android:layout_margin="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="@color/white">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        android:padding="16dp"
-                        tools:ignore="UseCompoundDrawables">
-                        <ImageView
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:src="@drawable/icon_place_value"
-                            android:layout_marginBottom="8dp"
-                            android:contentDescription="@null" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/place_value_title"
-                            android:textStyle="bold"
-                            android:textColor="@color/text_primary"
-                            android:textSize="18sp"
-                            android:layout_marginTop="8dp"
-                            android:textAlignment="center"/>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-            </LinearLayout>
-
-            <!-- Row 2 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardRecognition"
-                    android:layout_width="0dp"
-                    android:layout_height="180dp"
-                    android:layout_weight="1"
-                    android:layout_margin="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="@color/white">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        android:padding="16dp"
-                        tools:ignore="UseCompoundDrawables">
-                        <ImageView
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:src="@drawable/icon_recognition"
-                            android:layout_marginBottom="8dp"
-                            android:contentDescription="@null" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/number_recognition_title"
-                            android:textStyle="bold"
-                            android:textColor="@color/text_primary"
-                            android:textSize="18sp"
-                            android:layout_marginTop="8dp"
-                            android:textAlignment="center"/>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardSequence"
-                    android:layout_width="0dp"
-                    android:layout_height="180dp"
-                    android:layout_weight="1"
-                    android:layout_margin="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="@color/white">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        android:padding="16dp"
-                        tools:ignore="UseCompoundDrawables">
-                        <ImageView
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:src="@drawable/icon_sequence"
-                            android:layout_marginBottom="8dp"
-                            android:contentDescription="@null" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/number_sequence_title"
-                            android:textStyle="bold"
-                            android:textColor="@color/text_primary"
-                            android:textSize="18sp"
-                            android:layout_marginTop="8dp"
-                            android:textAlignment="center"/>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-            </LinearLayout>
-
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnHistory"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="52dp"
+                android:contentDescription="@string/game_history"
+                android:text="@string/history"
+                android:textColor="@color/game_blue_dark"
+                android:textStyle="bold"
+                app:backgroundTint="@color/game_blue_soft"
+                app:cornerRadius="18dp"
+                app:icon="@android:drawable/ic_menu_recent_history"
+                app:iconTint="@color/game_blue_dark" />
         </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+
+        <ImageView
+            android:id="@+id/logoImageView"
+            android:layout_width="112dp"
+            android:layout_height="112dp"
+            android:layout_marginTop="10dp"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitCenter"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:text="@string/app_tagline"
+            android:textColor="@color/game_text_muted"
+            android:textSize="16sp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/modeToggleContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:cardBackgroundColor="@color/game_surface"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/game_outline"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/choose_mode"
+                        android:textColor="@color/game_navy"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvModeHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="@string/fun_mode_hint"
+                        android:textColor="@color/game_text_muted"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/modeSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/challenge_mode"
+                    android:minHeight="52dp"
+                    android:text="@string/challenge_mode"
+                    android:textColor="@color/game_navy"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:text="@string/pick_a_game"
+            android:textColor="@color/game_navy"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="@string/pick_a_game_hint"
+            android:textColor="@color/game_text_muted"
+            android:textSize="14sp" />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:alignmentMode="alignMargins"
+            android:columnCount="2"
+            android:rowCount="2"
+            android:useDefaultMargins="false">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardAssociation"
+                android:layout_width="0dp"
+                android:layout_height="190dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="6dp"
+                android:clickable="true"
+                android:contentDescription="@string/number_association_title"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/game_orange_soft"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="2dp"
+                app:strokeColor="@color/game_orange"
+                app:strokeWidth="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <ImageView android:layout_width="76dp" android:layout_height="76dp" android:contentDescription="@null" android:src="@drawable/icon_association" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:gravity="center" android:text="@string/number_association_title" android:textColor="@color/game_navy" android:textSize="18sp" android:textStyle="bold" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:gravity="center" android:text="@string/number_association_desc" android:textColor="@color/game_text_muted" android:textSize="12sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardPlaceValue"
+                android:layout_width="0dp"
+                android:layout_height="190dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="6dp"
+                android:clickable="true"
+                android:contentDescription="@string/place_value_title"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/game_green_soft"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="2dp"
+                app:strokeColor="@color/game_green"
+                app:strokeWidth="2dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:padding="16dp">
+                    <ImageView android:layout_width="76dp" android:layout_height="76dp" android:contentDescription="@null" android:src="@drawable/icon_place_value" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:gravity="center" android:text="@string/place_value_title" android:textColor="@color/game_navy" android:textSize="18sp" android:textStyle="bold" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:gravity="center" android:text="@string/place_value_desc" android:textColor="@color/game_text_muted" android:textSize="12sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardRecognition"
+                android:layout_width="0dp"
+                android:layout_height="190dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="6dp"
+                android:clickable="true"
+                android:contentDescription="@string/number_recognition_title"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/game_purple_soft"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="2dp"
+                app:strokeColor="@color/game_purple"
+                app:strokeWidth="2dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:padding="16dp">
+                    <ImageView android:layout_width="76dp" android:layout_height="76dp" android:contentDescription="@null" android:src="@drawable/icon_recognition" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:gravity="center" android:text="@string/number_recognition_title" android:textColor="@color/game_navy" android:textSize="18sp" android:textStyle="bold" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:gravity="center" android:text="@string/number_recognition_desc" android:textColor="@color/game_text_muted" android:textSize="12sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardSequence"
+                android:layout_width="0dp"
+                android:layout_height="190dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="6dp"
+                android:clickable="true"
+                android:contentDescription="@string/number_sequence_title"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/game_blue_soft"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="2dp"
+                app:strokeColor="@color/game_blue"
+                app:strokeWidth="2dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:padding="16dp">
+                    <ImageView android:layout_width="76dp" android:layout_height="76dp" android:contentDescription="@null" android:src="@drawable/icon_sequence" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:gravity="center" android:text="@string/number_sequence_title" android:textColor="@color/game_navy" android:textSize="18sp" android:textStyle="bold" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:gravity="center" android:text="@string/number_sequence_desc" android:textColor="@color/game_text_muted" android:textSize="12sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </GridLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

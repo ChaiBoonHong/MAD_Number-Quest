@@ -6,10 +6,8 @@ import android.widget.Button
 import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import androidx.appcompat.app.AppCompatActivity
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.card.MaterialCardView
 import com.uccd3223.p1_chai_boon_hong_2206806.util.ExerciseGeneratorUtil
@@ -109,7 +107,8 @@ class PlaceValueActivity : BaseGameActivity() {
             optionBtn.setCardBackgroundColor(colors[index].toColorInt())
             
             val tv = optionBtn.findViewById<TextView>(R.id.answerChoicerText)
-            tv.text = option.toString()
+            tv.text = getString(R.string.number_value, option)
+            optionBtn.contentDescription = getString(R.string.answer_number, option)
             
             val layoutParams = GridLayout.LayoutParams(
                 GridLayout.spec(GridLayout.UNDEFINED, 1f),
@@ -128,23 +127,25 @@ class PlaceValueActivity : BaseGameActivity() {
     private fun checkAnswer(selectedOption: Int, card: MaterialCardView) {
         if (selectedOption == currentData.total) {
             card.setCardBackgroundColor("#66BB6A".toColorInt())
+            for (i in 0 until optionsContainerLayout.childCount) {
+                optionsContainerLayout.getChildAt(i).isEnabled = false
+            }
             
-            tvFeedback.text = "Great Job!"
+            tvFeedback.setText(R.string.great_job)
             tvFeedback.setTextColor("#66BB6A".toColorInt())
             tvFeedback.visibility = android.view.View.VISIBLE
             
             tvFeedback.postDelayed({
-                if (tvFeedback.text == "Great Job!") {
+                if (!isGameOver) {
+                    onQuestionCompleted()
+                    loadNextQuestion()
                     tvFeedback.visibility = android.view.View.INVISIBLE
                 }
-            }, 1000)
-
-            onQuestionCompleted()
-            loadNextQuestion()
+            }, 550)
         } else {
             card.setCardBackgroundColor("#EF5350".toColorInt())
             
-            tvFeedback.text = "Oops, try again!"
+            tvFeedback.setText(R.string.try_again)
             tvFeedback.setTextColor("#EF5350".toColorInt())
             tvFeedback.visibility = android.view.View.VISIBLE
             

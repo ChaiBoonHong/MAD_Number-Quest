@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#FFFFFFFF</color>
-
-    <!-- Theme Colors -->
-    <color name="btn_primary">#4FC3F7</color>
-    <color name="btn_primary_dark">#0288D1</color>
-
-    <color name="text_primary">#37474F</color>
+    <color name="game_background">#F2F8FF</color>
+    <color name="game_surface">#FFFFFFFF</color>
+    <color name="game_navy">#193B62</color>
+    <color name="game_text_muted">#607895</color>
+    <color name="game_outline">#D8E7F7</color>
+    <color name="game_blue">#4F8FF7</color>
+    <color name="game_blue_dark">#2A64C7</color>
+    <color name="game_blue_soft">#E7F1FF</color>
+    <color name="game_purple">#8B6BE8</color>
+    <color name="game_purple_soft">#F0EAFF</color>
+    <color name="game_orange">#FF9F43</color>
+    <color name="game_orange_soft">#FFF1DE</color>
+    <color name="game_green">#35B77A</color>
+    <color name="game_green_soft">#E3F8EE</color>
 </resources>

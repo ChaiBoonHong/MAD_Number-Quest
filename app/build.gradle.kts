@@ -4,13 +4,12 @@ plugins {
 
 android {
     namespace = "com.uccd3223.p1_chai_boon_hong_2206806"
-    compileSdk = 37
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.uccd3223.p1_chai_boon_hong_2206806"
         minSdk = 28
-        //noinspection ManuallyEditedTargetSdkVersion
-        targetSdk = 37
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -27,8 +26,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 

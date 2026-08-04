@@ -4,76 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_pattern_tiled"
+    android:background="@drawable/bg_game_gradient"
     android:fitsSystemWindows="true">
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:backgroundTint="@color/btn_primary"
-        app:cornerRadius="24dp"
-        app:strokeWidth="4dp"
-        app:strokeColor="@color/btn_primary_dark"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
-        android:text="@string/back"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvHistoryTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/game_history"
-        android:textColor="@color/text_primary"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnBack" />
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayoutMode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:tabGravity="fill"
-        app:tabMode="fixed"
-        android:background="@android:color/transparent"
-        app:layout_constraintTop_toBottomOf="@id/tvHistoryTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-        
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Fun Mode" />
-            
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Challenge Mode" />
-            
+    <com.google.android.material.button.MaterialButton android:id="@+id/btnBack" style="@style/Widget.NumberQuest.BackButton" android:layout_width="wrap_content" android:layout_height="52dp" android:layout_marginStart="18dp" android:layout_marginTop="14dp" android:text="@string/back" app:icon="@android:drawable/ic_media_previous" app:iconTint="@color/game_blue_dark" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" />
+    <TextView android:id="@+id/tvHistoryTitle" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="18dp" android:layout_marginTop="22dp" android:layout_marginEnd="18dp" android:text="@string/game_history" android:textColor="@color/game_navy" android:textSize="30sp" android:textStyle="bold" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/btnBack" />
+    <com.google.android.material.tabs.TabLayout android:id="@+id/tabLayoutMode" android:layout_width="0dp" android:layout_height="56dp" android:layout_marginStart="18dp" android:layout_marginTop="14dp" android:layout_marginEnd="18dp" android:background="@drawable/bg_prompt_panel" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/tvHistoryTitle" app:tabGravity="fill" app:tabIndicatorColor="@color/game_blue" app:tabIndicatorFullWidth="false" app:tabIndicatorHeight="4dp" app:tabMode="fixed" app:tabSelectedTextColor="@color/game_blue_dark" app:tabTextColor="@color/game_text_muted">
+        <com.google.android.material.tabs.TabItem android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/fun_mode" />
+        <com.google.android.material.tabs.TabItem android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/challenge_mode" />
     </com.google.android.material.tabs.TabLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvHistory"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:clipToPadding="false"
-        android:padding="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tabLayoutMode"
-        tools:listitem="@layout/item_history" />
-
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvHistory" android:layout_width="0dp" android:layout_height="0dp" android:clipToPadding="false" android:padding="18dp" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/tabLayoutMode" tools:listitem="@layout/item_history" />
+    <TextView android:id="@+id/tvEmptyHistory" android:layout_width="260dp" android:layout_height="wrap_content" android:gravity="center" android:text="@string/history_empty" android:textColor="@color/game_text_muted" android:textSize="18sp" android:textStyle="bold" android:visibility="gone" app:layout_constraintBottom_toBottomOf="@id/rvHistory" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="@id/rvHistory" />
 </androidx.constraintlayout.widget.ConstraintLayout>

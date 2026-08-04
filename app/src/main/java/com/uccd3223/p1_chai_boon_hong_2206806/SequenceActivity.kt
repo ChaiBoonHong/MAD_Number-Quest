@@ -2,37 +2,32 @@ package com.uccd3223.p1_chai_boon_hong_2206806
 
 import android.content.ClipData
 import android.content.ClipDescription
-import android.graphics.Color
-import androidx.core.graphics.toColorInt
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.DragEvent
 import android.view.View
-import android.widget.Button
-import android.widget.GridLayout
-import android.widget.TextView
-import android.widget.Toast
-import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.Button
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.graphics.toColorInt
 import com.google.android.flexbox.FlexboxLayout
-import com.google.android.material.card.MaterialCardView
 import com.uccd3223.p1_chai_boon_hong_2206806.util.ExerciseGeneratorUtil
 
 class SequenceActivity : BaseGameActivity() {
 
-    private lateinit var sequenceContainerLayout: com.google.android.flexbox.FlexboxLayout
-    private lateinit var optionsContainerLayout: com.google.android.flexbox.FlexboxLayout
-    private lateinit var tvFeedback: android.widget.TextView
+    private lateinit var sequenceContainerLayout: FlexboxLayout
+    private lateinit var optionsContainerLayout: FlexboxLayout
+    private lateinit var tvFeedback: TextView
     private lateinit var targetSortedSequence: List<Int>
     private lateinit var shuffledOptions: List<Int>
-    private var completedCount: Int = 0
+    private var completedCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sequence)
-        
         setupGameModeUI()
-
         initializeUI()
         loadNextQuestion()
     }
@@ -41,164 +36,143 @@ class SequenceActivity : BaseGameActivity() {
         sequenceContainerLayout = findViewById(R.id.sequenceContainerLayout)
         optionsContainerLayout = findViewById(R.id.optionsContainerLayout)
         tvFeedback = findViewById(R.id.tvFeedback)
-        
-        findViewById<Button>(R.id.btnBack).setOnClickListener {
-            finish()
-        }
+        findViewById<Button>(R.id.btnBack).setOnClickListener { finish() }
     }
 
     private fun loadNextQuestion() {
         sequenceContainerLayout.removeAllViews()
         optionsContainerLayout.removeAllViews()
         completedCount = 0
-        
         shuffledOptions = ExerciseGeneratorUtil.generateSortSequence(4)
         targetSortedSequence = shuffledOptions.sorted()
-
         renderSequenceUI()
         renderOptionsUI()
     }
 
     private fun renderSequenceUI() {
-        val dpScale = resources.displayMetrics.density
-        val margin = (8 * dpScale).toInt()
+        val density = resources.displayMetrics.density
+        val size = (92 * density).toInt()
+        val margin = (3 * density).toInt()
 
-        for (i in targetSortedSequence.indices) {
-            val itemView = layoutInflater.inflate(R.layout.item_balloon, sequenceContainerLayout, false) as android.widget.FrameLayout
-            val tv = itemView.findViewById<TextView>(R.id.balloonText)
-            val bg = itemView.findViewById<android.widget.ImageView>(R.id.balloonBg)
-            
-            val size = (110 * dpScale).toInt()
-            val layoutParams = com.google.android.flexbox.FlexboxLayout.LayoutParams(
-                size,
-                size
-            ).apply {
-                setMargins(margin/2, margin, margin/2, margin)
+        targetSortedSequence.indices.forEach { index ->
+            val targetView = layoutInflater.inflate(
+                R.layout.item_balloon,
+                sequenceContainerLayout,
+                false
+            ) as FrameLayout
+            targetView.layoutParams = FlexboxLayout.LayoutParams(size, size).apply {
+                setMargins(margin, margin, margin, margin)
             }
-            itemView.layoutParams = layoutParams
+            targetView.findViewById<TextView>(R.id.balloonText).text = ""
+            targetView.contentDescription = getString(R.string.answer_number, index + 1)
 
-            tv.text = ""
-            
-            // Set up Drag Listener
-            itemView.setOnDragListener { v, event ->
+            targetView.setOnDragListener { view, event ->
                 when (event.action) {
-                    DragEvent.ACTION_DRAG_STARTED -> {
-                        event.clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)
-                    }
+                    DragEvent.ACTION_DRAG_STARTED ->
+                        event.clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN) &&
+                            event.localState is View
                     DragEvent.ACTION_DRAG_ENTERED -> {
-                        v.alpha = 0.7f
+                        view.alpha = 0.72f
                         true
                     }
-                    DragEvent.ACTION_DRAG_EXITED -> {
-                        v.alpha = 1.0f
+                    DragEvent.ACTION_DRAG_EXITED, DragEvent.ACTION_DRAG_ENDED -> {
+                        view.alpha = 1f
                         true
                     }
                     DragEvent.ACTION_DROP -> {
-                        v.alpha = 1.0f
-                        val item = event.clipData.getItemAt(0)
-                        val draggedNumber = item.text.toString().toIntOrNull()
-                        
-                        if (draggedNumber != null && draggedNumber == targetSortedSequence[i]) {
-                            // Correct placement
-                            tv.text = draggedNumber.toString()
-                            tv.setTextColor(Color.BLACK)
-                            
-                            val sourceView = event.localState as View
-                            val sourceBg = sourceView.findViewById<android.widget.ImageView>(R.id.balloonBg)
-                            bg.imageTintList = sourceBg.imageTintList
-                            
-                            sourceView.visibility = View.INVISIBLE
-                            
-                            v.setOnDragListener(null) // Disable further drops on this carriage
-                            completedCount++
-                            
-                            if (completedCount == targetSortedSequence.size) {
-                                tvFeedback.text = "Great Job!"
-                                tvFeedback.setTextColor("#66BB6A".toColorInt())
-                                tvFeedback.visibility = View.VISIBLE
-                                
-                                tvFeedback.postDelayed({
-                                    if (tvFeedback.text == "Great Job!") {
-                                        tvFeedback.visibility = View.INVISIBLE
-                                    }
-                                }, 1000)
-                                
-                                onQuestionCompleted()
-                                loadNextQuestion()
-                            }
+                        view.alpha = 1f
+                        val number = event.clipData.getItemAt(0).text.toString().toIntOrNull()
+                        val source = event.localState as? View
+                        if (number == targetSortedSequence[index] && source != null) {
+                            placeNumber(index, number, source)
                         } else {
-                            // Incorrect placement
-                            tvFeedback.text = "Oops, try again!"
-                            tvFeedback.setTextColor("#EF5350".toColorInt())
-                            tvFeedback.visibility = View.VISIBLE
-                            
-                            val shake = AnimationUtils.loadAnimation(this@SequenceActivity, R.anim.shake)
-                            v.startAnimation(shake)
+                            showIncorrect(view)
                         }
-                        true
-                    }
-                    DragEvent.ACTION_DRAG_ENDED -> {
-                        v.alpha = 1.0f
                         true
                     }
                     else -> false
                 }
             }
-            
-            sequenceContainerLayout.addView(itemView)
+            sequenceContainerLayout.addView(targetView)
         }
     }
 
     private fun renderOptionsUI() {
-        val dpScale = resources.displayMetrics.density
-        val margin = (8 * dpScale).toInt()
-        val colors = listOf("#1368CE", "#D89E00", "#9C27B0", "#E65100") // Blue, Yellow/Orange, Purple, Dark Orange
+        val density = resources.displayMetrics.density
+        val size = (92 * density).toInt()
+        val margin = (3 * density).toInt()
+        val colors = listOf("#4F8FF7", "#FF9F43", "#8B6BE8", "#35B77A")
 
-        for ((index, option) in shuffledOptions.withIndex()) {
-            val optionBtn = layoutInflater.inflate(R.layout.item_balloon, optionsContainerLayout, false) as android.widget.FrameLayout
-            
-            val tv = optionBtn.findViewById<TextView>(R.id.balloonText)
-            tv.text = option.toString()
-            tv.setTextColor(Color.BLACK)
-            
-            val bg = optionBtn.findViewById<android.widget.ImageView>(R.id.balloonBg)
-            bg.imageTintList = android.content.res.ColorStateList.valueOf(Color.parseColor(colors[index % colors.size]))
-            
-            val size = (110 * dpScale).toInt()
-            val layoutParams = com.google.android.flexbox.FlexboxLayout.LayoutParams(
-                size,
-                size
-            ).apply {
+        shuffledOptions.forEachIndexed { index, option ->
+            val optionView = layoutInflater.inflate(
+                R.layout.item_balloon,
+                optionsContainerLayout,
+                false
+            ) as FrameLayout
+            optionView.layoutParams = FlexboxLayout.LayoutParams(size, size).apply {
                 setMargins(margin, margin, margin, margin)
             }
-            optionBtn.layoutParams = layoutParams
+            optionView.findViewById<TextView>(R.id.balloonText).text =
+                getString(R.string.number_value, option)
+            optionView.findViewById<ImageView>(R.id.balloonBg).imageTintList =
+                ColorStateList.valueOf(colors[index % colors.size].toColorInt())
+            optionView.contentDescription = getString(R.string.drag_number, option)
 
-            // Set up Touch Listener for direct dragging
-            @android.annotation.SuppressLint("ClickableViewAccessibility")
-            optionBtn.setOnTouchListener { view, motionEvent ->
-                if (motionEvent.action == android.view.MotionEvent.ACTION_DOWN) {
-                    val item = ClipData.Item(option.toString())
-                    val dragData = ClipData(
-                        option.toString(),
-                        arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN),
-                        item
-                    )
-                    
-                    val myShadow = View.DragShadowBuilder(view)
-                    
-                    view.startDragAndDrop(
-                        dragData,
-                        myShadow,
-                        view, // pass view as local state
-                        0
-                    )
-                    true
+            optionView.setOnClickListener {
+                val nextEmptyIndex = targetSortedSequence.indices.firstOrNull { targetIndex ->
+                    val target = sequenceContainerLayout.getChildAt(targetIndex)
+                    target.findViewById<TextView>(R.id.balloonText).text.isEmpty()
+                }
+                if (nextEmptyIndex != null && option == targetSortedSequence[nextEmptyIndex]) {
+                    placeNumber(nextEmptyIndex, option, optionView)
                 } else {
-                    false
+                    showIncorrect(optionView)
                 }
             }
-            
-            optionsContainerLayout.addView(optionBtn)
+            optionView.setOnLongClickListener { view ->
+                val dragData = ClipData(
+                    option.toString(),
+                    arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN),
+                    ClipData.Item(option.toString())
+                )
+                view.startDragAndDrop(dragData, View.DragShadowBuilder(view), view, 0)
+                true
+            }
+            optionsContainerLayout.addView(optionView)
         }
+    }
+
+    private fun placeNumber(targetIndex: Int, number: Int, sourceView: View) {
+        val targetView = sequenceContainerLayout.getChildAt(targetIndex)
+        val targetText = targetView.findViewById<TextView>(R.id.balloonText)
+        if (targetText.text.isNotEmpty() || sourceView.visibility != View.VISIBLE) return
+
+        targetText.text = getString(R.string.number_value, number)
+        targetView.findViewById<ImageView>(R.id.balloonBg).imageTintList =
+            sourceView.findViewById<ImageView>(R.id.balloonBg).imageTintList
+        targetView.setOnDragListener(null)
+        targetView.contentDescription = getString(R.string.answer_number, number)
+        sourceView.visibility = View.INVISIBLE
+        completedCount++
+
+        if (completedCount == targetSortedSequence.size) {
+            tvFeedback.setText(R.string.great_job)
+            tvFeedback.setTextColor("#35B77A".toColorInt())
+            tvFeedback.visibility = View.VISIBLE
+            tvFeedback.postDelayed({
+                if (!isGameOver) {
+                    onQuestionCompleted()
+                    loadNextQuestion()
+                    tvFeedback.visibility = View.INVISIBLE
+                }
+            }, 650)
+        }
+    }
+
+    private fun showIncorrect(view: View) {
+        tvFeedback.setText(R.string.try_again)
+        tvFeedback.setTextColor("#EB5757".toColorInt())
+        tvFeedback.visibility = View.VISIBLE
+        view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake))
     }
 }

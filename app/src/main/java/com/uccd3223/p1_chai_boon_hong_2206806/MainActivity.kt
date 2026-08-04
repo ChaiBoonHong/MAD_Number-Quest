@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
-import com.google.android.material.materialswitch.MaterialSwitch
+import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,10 +12,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val modeSwitch = findViewById<com.google.android.material.materialswitch.MaterialSwitch>(R.id.modeSwitch)
+        val tvModeHint = findViewById<TextView>(R.id.tvModeHint)
         val btnHistory = findViewById<com.google.android.material.button.MaterialButton>(R.id.btnHistory)
         
         btnHistory.setOnClickListener {
             startActivity(Intent(this, HistoryActivity::class.java))
+        }
+
+        modeSwitch.setOnCheckedChangeListener { _, isChecked ->
+            tvModeHint.setText(if (isChecked) R.string.challenge_mode_hint else R.string.fun_mode_hint)
         }
 
         fun getSelectedMode(): String {
@@ -54,9 +59,6 @@ class MainActivity : AppCompatActivity() {
         val dialog = android.app.Dialog(this, R.style.FullScreenDialogTheme)
         dialog.setContentView(R.layout.dialog_challenge_selection)
             
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.window?.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT)
-        
         dialog.findViewById<android.widget.Button>(R.id.btnTimeAttack).setOnClickListener {
             dialog.dismiss()
             showTimeSelectionDialog(activityClass)
@@ -74,15 +76,14 @@ class MainActivity : AppCompatActivity() {
         }
         
         dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.window?.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT)
     }
     
     private fun showTimeSelectionDialog(activityClass: Class<*>) {
         val dialog = android.app.Dialog(this, R.style.FullScreenDialogTheme)
         dialog.setContentView(R.layout.dialog_time_selection)
             
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.window?.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT)
-        
         val startTimeAttack = { timeLimit: Long ->
             dialog.dismiss()
             val intent = Intent(this, activityClass)
@@ -100,5 +101,7 @@ class MainActivity : AppCompatActivity() {
         }
         
         dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.window?.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT)
     }
 }

@@ -26,20 +26,34 @@ class HistoryAdapter(private val records: List<HistoryRecord>) : RecyclerView.Ad
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val record = records[position]
-        holder.tvGameName.text = record.gameName
+        holder.tvGameName.text = when (record.gameName) {
+            "Association" -> holder.itemView.context.getString(R.string.number_association_title)
+            "PlaceValue" -> holder.itemView.context.getString(R.string.place_value_title)
+            "Recognition" -> holder.itemView.context.getString(R.string.number_recognition_title)
+            "Sequence" -> holder.itemView.context.getString(R.string.number_sequence_title)
+            else -> record.gameName
+        }
         
         if (record.mode == "FUN") {
             holder.chipMode.visibility = View.GONE
         } else {
             holder.chipMode.visibility = View.VISIBLE
             holder.chipMode.text = when (record.mode) {
-                "TIME_ATTACK" -> "Time Attack"
-                "SCORE_ATTACK" -> "Score Attack"
+                "TIME_ATTACK" -> holder.itemView.context.getString(R.string.mode_time_attack)
+                "SCORE_ATTACK" -> holder.itemView.context.getString(R.string.mode_score_attack)
                 else -> record.mode
             }
         }
         
-        holder.tvScore.text = if (record.mode == "SCORE_ATTACK") "Round ${record.score}" else "${record.score} pts"
+        holder.tvScore.text = if (record.mode == "SCORE_ATTACK") {
+            holder.itemView.context.getString(R.string.round_reached, record.score)
+        } else {
+            holder.itemView.resources.getQuantityString(
+                R.plurals.points_earned,
+                record.score,
+                record.score
+            )
+        }
         
         val sdf = SimpleDateFormat("MMM dd, yyyy h:mm a", Locale.getDefault())
         holder.tvDate.text = sdf.format(Date(record.timestamp))

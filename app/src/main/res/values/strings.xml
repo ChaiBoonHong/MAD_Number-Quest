@@ -1,30 +1,81 @@
 <resources>
-    <string name="app_name">P1-Chai_Boon_Hong-2206806</string>
-    <string name="back">← Back</string>
+    <string name="app_name">Number Quest</string>
+    <string name="app_tagline">Play, learn, and become a number hero!</string>
+    <string name="pick_a_game">Pick a game</string>
+    <string name="pick_a_game_hint">Every game helps your number skills grow.</string>
+    <string name="back">Back</string>
+    <string name="close">Close</string>
     <string name="zero">0</string>
-    <string name="number_association_title">Number\nAssociation</string>
-    <string name="place_value_title">Place\nValue</string>
-    <string name="number_recognition_title">Number\nRecognition</string>
-    <string name="number_sequence_title">Number\nSequence</string>
-    <string name="how_many_objects">Count the objects</string>
-    <string name="how_many_tens_ones">Count the blocks</string>
-    <string name="find_the_number">Find the number</string>
-    <string name="find_the_missing_number">Order the numbers.</string>
-    <string name="start_with_smallest">Start with the smallest.</string>
-    <string name="time_format">Time: %ds</string>
-    <string name="score_format">Score: %d</string>
-    <string name="score_initial">Score: 0</string>
-    <string name="time_initial">Time: 0s</string>
-    <string name="choose_challenge">Choose Challenge</string>
-    <string name="time_attack_desc">Time Attack\n(Beat the clock!)</string>
-    <string name="score_attack_desc">Score Attack\n(Survive the rounds!)</string>
-    <string name="time_attack">Time Attack</string>
-    <string name="sixty_seconds">60 Seconds</string>
-    <string name="ninety_seconds">90 Seconds</string>
-    <string name="one_twenty_seconds">120 Seconds</string>
-    <string name="game_history">Game History</string>
-    <string name="history">History</string>
-    <string name="fun_mode">Fun Mode</string>
-    <string name="challenge_mode">Challenge Mode</string>
-    <string name="round_format">R%1$d (%2$d/%3$d)</string>
+
+    <string name="number_association_title">Count &amp; Match</string>
+    <string name="number_association_desc">Count the pictures</string>
+    <string name="place_value_title">Tens &amp; Ones</string>
+    <string name="place_value_desc">Build big numbers</string>
+    <string name="number_recognition_title">Word Detective</string>
+    <string name="number_recognition_desc">Match words to numbers</string>
+    <string name="number_sequence_title">Number Order</string>
+    <string name="number_sequence_desc">Sort from small to big</string>
+
+    <string name="how_many_objects">How many apples can you count?</string>
+    <string name="how_many_tens_ones">What number do the blocks make?</string>
+    <string name="find_the_number">Which number matches this word?</string>
+    <string name="find_the_missing_number">Put the numbers in order</string>
+    <string name="start_with_smallest">Drag or tap the smallest number first</string>
+    <string name="choose_answer">Choose your answer</string>
+    <string name="great_job">Great job! ⭐</string>
+    <string name="try_again">Almost! Try again</string>
+
+    <string name="time_format">⏱ %ds</string>
+    <string name="score_format">⭐ %d</string>
+    <string name="score_initial">⭐ 0</string>
+    <string name="time_initial">⏱ 0s</string>
+    <string name="round_format">Round %1$d  •  %2$d/%3$d</string>
+
+    <string name="choose_mode">Choose how you want to play</string>
+    <string name="fun_mode">Fun</string>
+    <string name="challenge_mode">Challenge</string>
+    <string name="fun_mode_hint">Relaxed play • no timer</string>
+    <string name="challenge_mode_hint">Race the clock • earn a high score</string>
+    <string name="choose_challenge">Choose your challenge</string>
+    <string name="choose_challenge_hint">How would you like to test your skills?</string>
+    <string name="time_attack_desc">Time Attack</string>
+    <string name="time_attack_subtitle">Answer as many as you can</string>
+    <string name="score_attack_desc">Round Rush</string>
+    <string name="score_attack_subtitle">Clear each round before time runs out</string>
+    <string name="time_attack">Pick your play time</string>
+    <string name="time_attack_hint">More time means more chances to score!</string>
+    <string name="sixty_seconds">60 seconds</string>
+    <string name="sixty_seconds_hint">Quick game</string>
+    <string name="ninety_seconds">90 seconds</string>
+    <string name="ninety_seconds_hint">Super game</string>
+    <string name="one_twenty_seconds">120 seconds</string>
+    <string name="one_twenty_seconds_hint">Mega game</string>
+
+    <string name="game_history">My Trophy Shelf</string>
+    <string name="history">Trophies</string>
+    <string name="history_empty">Play a game to earn your first trophy!</string>
+    <string name="answer_number">Number %1$d</string>
+    <string name="number_value">%1$d</string>
+    <string name="drag_number">Number %1$d. Drag or tap to place it.</string>
+    <string name="round_reached">Round %1$d</string>
+    <plurals name="points_earned">
+        <item quantity="one">%1$d star</item>
+        <item quantity="other">%1$d stars</item>
+    </plurals>
+    <string name="mode_time_attack">Time Attack</string>
+    <string name="mode_score_attack">Round Rush</string>
+    <string name="challenge_complete">Challenge complete!</string>
+    <string name="main_menu">Main menu</string>
+    <string name="play_again">Play again</string>
+    <string name="new_high_score">New high score! 🏆</string>
+    <string name="best_score">Best: %1$d</string>
+    <plurals name="time_attack_result">
+        <item quantity="one">Time is up! You earned %1$d star.</item>
+        <item quantity="other">Time is up! You earned %1$d stars.</item>
+    </plurals>
+    <string name="round_rush_result">Time is up! You reached round %1$d.</string>
+    <plurals name="next_round">
+        <item quantity="one">Round %1$d! You have %2$d second.</item>
+        <item quantity="other">Round %1$d! You have %2$d seconds.</item>
+    </plurals>
 </resources>

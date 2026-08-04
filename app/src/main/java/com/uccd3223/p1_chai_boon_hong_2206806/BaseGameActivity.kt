@@ -4,12 +4,11 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 
 open class BaseGameActivity : AppCompatActivity() {
 
@@ -17,17 +16,15 @@ open class BaseGameActivity : AppCompatActivity() {
 
     protected var gameMode: String = "FUN"
     protected var score: Int = 0 // Also acts as questions answered for Score Attack
-    protected var timeElapsed: Int = 0
+    protected var isGameOver: Boolean = false
     
     private var tvScore: TextView? = null
     private var tvTimer: TextView? = null
     
     private var countDownTimer: CountDownTimer? = null
-    private val stopwatchHandler = Handler(Looper.getMainLooper())
-    private var stopwatchRunnable: Runnable? = null
-    
     // Time Attack
     private var timeLimitMs: Long = 60000L
+    private var remainingTimeMs: Long = 0L
     
     // Score Attack Rounds
     private var currentRound: Int = 1
@@ -41,6 +38,11 @@ open class BaseGameActivity : AppCompatActivity() {
         gameMode = intent.getStringExtra("GAME_MODE") ?: "FUN"
         timeLimitMs = intent.getLongExtra("TIME_LIMIT", 60000L)
         prefs = getSharedPreferences("GameHighScores", Context.MODE_PRIVATE)
+        score = savedInstanceState?.getInt(STATE_SCORE) ?: 0
+        currentRound = savedInstanceState?.getInt(STATE_ROUND) ?: 1
+        roundScore = savedInstanceState?.getInt(STATE_ROUND_SCORE) ?: 0
+        remainingTimeMs = savedInstanceState?.getLong(STATE_TIME_REMAINING) ?: 0L
+        isHistorySaved = savedInstanceState?.getBoolean(STATE_HISTORY_SAVED) ?: false
     }
 
     protected fun setupGameModeUI() {
@@ -52,13 +54,17 @@ open class BaseGameActivity : AppCompatActivity() {
                 tvScore?.visibility = View.VISIBLE
                 tvTimer?.visibility = View.VISIBLE
                 updateScoreText()
-                updateTimerText(timeLimitMs / 1000)
-                startGameTimer(timeLimitMs)
+                val duration = remainingTimeMs.takeIf { it > 0L } ?: timeLimitMs
+                updateTimerText(duration / 1000)
+                startGameTimer(duration)
             }
             "SCORE_ATTACK" -> {
                 tvScore?.visibility = View.VISIBLE
                 tvTimer?.visibility = View.VISIBLE
-                startScoreAttackRound()
+                targetQuestionsForRound = 10 + (currentRound - 1) * 5
+                timeLimitForRoundSeconds = 30 + (currentRound - 1) * 10
+                updateScoreAttackUI()
+                startGameTimer(remainingTimeMs.takeIf { it > 0L } ?: timeLimitForRoundSeconds * 1000L)
             }
             else -> {
                 tvScore?.visibility = View.GONE
@@ -86,6 +92,7 @@ open class BaseGameActivity : AppCompatActivity() {
     }
     
     protected fun onQuestionCompleted() {
+        if (isGameOver) return
         score++
         
         if (gameMode == "FUN") return
@@ -102,7 +109,17 @@ open class BaseGameActivity : AppCompatActivity() {
                 currentRound++
                 roundScore = 0
                 
-                android.widget.Toast.makeText(this, "Round $currentRound! +${30 + (currentRound-1)*10}s", android.widget.Toast.LENGTH_SHORT).show()
+                val nextRoundSeconds = 30 + (currentRound - 1) * 10
+                android.widget.Toast.makeText(
+                    this,
+                    resources.getQuantityString(
+                        R.plurals.next_round,
+                        nextRoundSeconds,
+                        currentRound,
+                        nextRoundSeconds
+                    ),
+                    android.widget.Toast.LENGTH_SHORT
+                ).show()
                 startScoreAttackRound()
             }
         }
@@ -118,11 +135,14 @@ open class BaseGameActivity : AppCompatActivity() {
     
     private fun startGameTimer(durationMs: Long) {
         countDownTimer?.cancel()
+        remainingTimeMs = durationMs
         countDownTimer = object : CountDownTimer(durationMs, 1000) {
             override fun onTick(millisUntilFinished: Long) {
+                remainingTimeMs = millisUntilFinished
                 updateTimerText(millisUntilFinished / 1000)
             }
             override fun onFinish() {
+                remainingTimeMs = 0L
                 updateTimerText(0)
                 endGame()
             }
@@ -139,6 +159,8 @@ open class BaseGameActivity : AppCompatActivity() {
     }
     
     private fun endGame() {
+        if (isGameOver) return
+        isGameOver = true
         countDownTimer?.cancel()
         
         val key = getHighScoreKey()
@@ -150,25 +172,33 @@ open class BaseGameActivity : AppCompatActivity() {
         saveHistoryRecord(finalScore)
         
         if (isNewHighScore) {
-            prefs.edit().putInt(key, finalScore).apply()
+            prefs.edit { putInt(key, finalScore) }
         }
         
-        val recordText = if (isNewHighScore) "\nNew High Score!" else "\nBest: $highScore"
+        val recordText = if (isNewHighScore) {
+            getString(R.string.new_high_score)
+        } else {
+            getString(R.string.best_score, highScore)
+        }
         
         val message = when (gameMode) {
-            "TIME_ATTACK" -> "Time's up! You scored $score.$recordText"
-            "SCORE_ATTACK" -> "Time's up! You reached Round $currentRound.$recordText"
-            else -> "Good job!"
+            "TIME_ATTACK" -> resources.getQuantityString(
+                R.plurals.time_attack_result,
+                score,
+                score
+            )
+            "SCORE_ATTACK" -> getString(R.string.round_rush_result, currentRound)
+            else -> getString(R.string.great_job)
         }
         
         AlertDialog.Builder(this)
-            .setTitle("Challenge Complete")
-            .setMessage(message)
+            .setTitle(R.string.challenge_complete)
+            .setMessage("$message\n\n$recordText")
             .setCancelable(false)
-            .setPositiveButton("Main Menu") { _, _ ->
+            .setPositiveButton(R.string.main_menu) { _, _ ->
                 finish()
             }
-            .setNegativeButton("Play Again") { _, _ ->
+            .setNegativeButton(R.string.play_again) { _, _ ->
                 recreate()
             }
             .show()
@@ -187,10 +217,27 @@ open class BaseGameActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         countDownTimer?.cancel()
-        if (gameMode == "FUN" && score > 0) {
+        if (isFinishing && gameMode == "FUN" && score > 0) {
             saveHistoryRecord(score)
         }
+        super.onDestroy()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt(STATE_SCORE, score)
+        outState.putInt(STATE_ROUND, currentRound)
+        outState.putInt(STATE_ROUND_SCORE, roundScore)
+        outState.putLong(STATE_TIME_REMAINING, remainingTimeMs)
+        outState.putBoolean(STATE_HISTORY_SAVED, isHistorySaved)
+        super.onSaveInstanceState(outState)
+    }
+
+    companion object {
+        private const val STATE_SCORE = "state_score"
+        private const val STATE_ROUND = "state_round"
+        private const val STATE_ROUND_SCORE = "state_round_score"
+        private const val STATE_TIME_REMAINING = "state_time_remaining"
+        private const val STATE_HISTORY_SAVED = "state_history_saved"
     }
 }

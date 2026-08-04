@@ -2,6 +2,8 @@ package com.uccd3223.p1_chai_boon_hong_2206806
 
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +14,7 @@ class HistoryActivity : AppCompatActivity() {
 
     private lateinit var rvHistory: RecyclerView
     private lateinit var historyList: List<HistoryRecord>
+    private lateinit var tvEmptyHistory: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +25,7 @@ class HistoryActivity : AppCompatActivity() {
         }
 
         rvHistory = findViewById(R.id.rvHistory)
+        tvEmptyHistory = findViewById(R.id.tvEmptyHistory)
         rvHistory.layoutManager = LinearLayoutManager(this)
         
         historyList = HistoryManager.getHistory(this)
@@ -46,5 +50,6 @@ class HistoryActivity : AppCompatActivity() {
             historyList.filter { it.mode != "FUN" }
         }
         rvHistory.adapter = HistoryAdapter(filteredList)
+        tvEmptyHistory.visibility = if (filteredList.isEmpty()) View.VISIBLE else View.GONE
     }
 }

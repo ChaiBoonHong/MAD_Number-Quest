@@ -2,23 +2,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp">
-
-    <ImageView
-        android:id="@+id/balloonBg"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/ic_balloon"
-        android:scaleType="fitCenter"
-        android:contentDescription="@null" />
-
-    <TextView
-        android:id="@+id/balloonText"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textColor="#FFFFFF"
-        android:textSize="34sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="16dp" />
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackgroundBorderless"
+    android:padding="5dp">
+    <ImageView android:id="@+id/balloonBg" android:layout_width="match_parent" android:layout_height="match_parent" android:contentDescription="@null" android:scaleType="fitCenter" android:src="@drawable/ic_balloon" />
+    <TextView android:id="@+id/balloonText" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginBottom="13dp" android:gravity="center" android:textColor="@color/game_navy" android:textSize="27sp" android:textStyle="bold" />
 </FrameLayout>

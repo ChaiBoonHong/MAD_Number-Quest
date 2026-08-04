@@ -1,12 +1,26 @@
 <resources>
-    <!-- Base application theme. -->
-    <style name="Base.Theme.P1Chai_Boon_Hong2206806" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <item name="android:windowBackground">@null</item>
+    <style name="Base.Theme.P1Chai_Boon_Hong2206806" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/game_blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/game_purple</item>
+        <item name="colorSurface">@color/game_surface</item>
+        <item name="colorOnSurface">@color/game_navy</item>
+        <item name="android:fontFamily">sans-serif-rounded</item>
+        <item name="android:colorAccent">@color/game_blue</item>
+        <item name="android:navigationBarColor">@color/game_background</item>
+        <item name="android:statusBarColor">@color/game_background</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowBackground">@drawable/bg_game_gradient</item>
     </style>
-
     <style name="Theme.P1Chai_Boon_Hong2206806" parent="Base.Theme.P1Chai_Boon_Hong2206806" />
-    
+    <style name="Widget.NumberQuest.BackButton" parent="Widget.Material3.Button.TonalButton">
+        <item name="android:minHeight">52dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="cornerRadius">18dp</item>
+        <item name="backgroundTint">@color/game_blue_soft</item>
+        <item name="android:textColor">@color/game_blue_dark</item>
+    </style>
     <style name="FullScreenDialogTheme" parent="Theme.Material3.Light.Dialog">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -14,6 +28,6 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:backgroundDimAmount">0.8</item>
+        <item name="android:backgroundDimAmount">0.62</item>
     </style>
 </resources>
