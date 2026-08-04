@@ -13,7 +13,7 @@
 2. Use Sections 1 to 8 below as the report's main body.
 3. The report screenshots captured from the current debug build are embedded below. Retain their figure numbers and captions when transferring them into the final report.
 4. Reference every figure or diagram in the surrounding paragraph, as already demonstrated below.
-5. Put the relevant Kotlin source listings described in Appendix A at the end of the report.
+5. Put the relevant Java source listings described in Appendix A at the end of the report.
 6. Export the completed report as PDF. A conclusion is not required because all four assigned topics are implemented.
 
 The embedded screenshots were captured from the freshly installed debug build on a physical Honor LLY-NX1 running Android 16 at 1080 by 2412 pixels. They reflect the current wording, controls, artwork, and layouts.
@@ -34,7 +34,7 @@ Two styles of play are available. Fun mode has no timer and allows relaxed pract
 
 | Area | Implementation |
 |---|---|
-| Language | Kotlin |
+| Language | Java 17 |
 | User interface | Android XML Views with Material 3 components |
 | Screen structure | Activities with a shared `BaseGameActivity` |
 | Layouts | ConstraintLayout, LinearLayout, GridLayout, NestedScrollView, RecyclerView, and FlexboxLayout |
@@ -217,7 +217,7 @@ The supplied course material teaches Android Activities, Intents, XML layouts, i
 |---|---|---|
 | Activities and lifecycle callbacks | Separate Activities are used for the home screen, four topics, and history. | Directly follows the Android Activity material. |
 | Explicit Intents and extras | The home screen opens a selected topic and passes `GAME_MODE` and `TIME_LIMIT`. | Directly follows the navigation and data-passing material. |
-| XML layouts plus dynamic UI | Static screen structure is defined in XML; objects, blocks, choices, and balloons are generated in Kotlin. | Extends the course example of combining XML with dynamic code. |
+| XML layouts plus dynamic UI | Static screen structure is defined in XML; objects, blocks, choices, and balloons are generated in Java. | Extends the course example of combining XML with dynamic code. |
 | Click listeners | Cards, buttons, answers, mode controls, and tap-to-place balloons use listeners. | Directly follows the input-event practical. |
 | ConstraintLayout and scrollable content | Game screens constrain a scrollable question area above a fixed answer tray. | Uses the modern layout introduced in the UI lecture. |
 | RecyclerView with Adapter/ViewHolder | Trophy records are displayed efficiently as reusable history cards. | Implements the more up-to-date RecyclerView homework from Practical 2. |
@@ -225,7 +225,7 @@ The supplied course material teaches Android Activities, Intents, XML layouts, i
 | XML and property animation | Wrong answers shake; correct answers scale and fade into view. | Applies the animation concepts taught in the animation lecture. |
 | XML vector and shape drawables | Balloons, stars, blocks, backgrounds, status labels, and feedback panels use XML resources. | Extends the XML shape-drawable material from the low-level UI practical. |
 | Haptic and visual feedback | Correct and retry actions use different haptic responses and animations. | Applies the UI-design lecture's recommendation for visible and haptic feedback. |
-| Kotlin instead of Java | The complete app is implemented in Kotlin while keeping XML Views. | Different from the practical instructions, which selected Java. This is a significant report-worthy difference. |
+| Java 17 with Kotlin DSL | Application and test logic is written in Java 17, while Gradle build configuration remains in Kotlin DSL. | Directly follows Practical 1, which selects Java for programming and Kotlin DSL for build configuration. |
 | Material 3 design system | MaterialCardView, MaterialButton, Chip, ShapeableImageView, rounded surfaces, and state selectors create a consistent visual system. | A modern extension beyond the basic widgets used in the practical examples. |
 | Runtime drag-and-drop | Balloon views use `startDragAndDrop`, `ClipData`, drag events, and drop targets. | The supplied slides discuss input and UI design, but this runtime drag implementation is an additional technique. |
 | Tap alternative to dragging | The next correct number can be tapped instead of dragged. | An added accessibility and usability technique. |
@@ -288,40 +288,41 @@ The JUnit test class checks the following generator behaviour:
 - unsupported balloon counts and impossible unique-value requests are rejected; and
 - English number words are correct for representative boundaries and two-digit values.
 
-The Android instrumented test verifies the application package name. Existing device-QA artifacts also cover home navigation, all four topic screens, correct and retry feedback, tap and drag placement, rotation, landscape layout, larger font settings, mode selection, and trophy history.
+The Android instrumented test verifies the application package name. Physical-device QA covers home navigation, all four topic screens, correct and retry feedback, rapid-tap scoring protection, tap and drag placement, rotation, landscape layout, larger font settings, challenge mode selection, result dialogs, and trophy history.
 
-Verification was completed on 4 August 2026 using the required final command:
+Verification was repeated after the Java 17 conversion on 4 August 2026 using the required final command:
 
-> The project was verified with `gradlew.bat testDebugUnitTest lintDebug assembleDebug --no-daemon`. Unit tests passed, Android lint reported no errors, and the debug APK was generated successfully.
+> The Java-only application was verified with `gradlew.bat testDebugUnitTest lintDebug assembleDebug --no-daemon`. Unit tests passed, Android lint reported no errors, no Kotlin source compilation task ran, and the debug APK was generated successfully.
 
 ---
 
-# Appendix A - Kotlin source-code listing order
+# Appendix A - Java source-code listing order
 
-The report guideline asks for the relevant source code in an appendix. Include the complete Kotlin files in the following order. Use a monospaced font, preserve indentation, add a filename heading before each listing, and allow code to wrap or continue across pages without shrinking it to an unreadable size.
+The report guideline asks for the relevant source code in an appendix. Include the complete Java files in the following order. Use a monospaced font, preserve indentation, add a filename heading before each listing, and allow code to wrap or continue across pages without shrinking it to an unreadable size.
 
-1. `MainActivity.kt` - home navigation and mode dialogs.
-2. `BaseGameActivity.kt` - common game modes, choices, feedback, timer, scoring, results, lifecycle, and history integration.
-3. `ExerciseGeneratorUtil.kt` - all reusable random generators, option validation, ordering, and number-to-word conversion.
-4. `AssociationActivity.kt` - Count & Match topic.
-5. `PlaceValueActivity.kt` - Tens & Ones topic.
-6. `RecognitionActivity.kt` - Word Detective topic.
-7. `SequenceActivity.kt` - Number Order topic.
-8. `BalloonFrameLayout.kt` - accessible custom balloon container.
-9. `HistoryRecord.kt` - history data model.
-10. `HistoryManager.kt` - bounded, safe local history persistence.
-11. `HistoryAdapter.kt` - RecyclerView binding for trophy cards.
-12. `HistoryActivity.kt` - Fun and Challenge history screen.
-13. `ExerciseGeneratorUtilTest.kt` - meaningful generator unit tests.
-14. `ExampleInstrumentedTest.kt` - package verification on an Android target.
+1. `MainActivity.java` - home navigation and mode dialogs.
+2. `BaseGameActivity.java` - common game modes, choices, feedback, timer, scoring, results, lifecycle, and history integration.
+3. `AnswerChoice.java` - immutable answer-card data model.
+4. `ExerciseGeneratorUtil.java` - all reusable random generators, option validation, ordering, and number-to-word conversion.
+5. `AssociationActivity.java` - Count & Match topic.
+6. `PlaceValueActivity.java` - Tens & Ones topic.
+7. `RecognitionActivity.java` - Word Detective topic.
+8. `SequenceActivity.java` - Number Order topic.
+9. `BalloonFrameLayout.java` - accessible custom balloon container.
+10. `HistoryRecord.java` - history data model.
+11. `HistoryManager.java` - bounded, safe local history persistence.
+12. `HistoryAdapter.java` - RecyclerView binding for trophy cards.
+13. `HistoryActivity.java` - Fun and Challenge history screen.
+14. `ExerciseGeneratorUtilTest.java` - meaningful generator unit tests.
+15. `ExampleInstrumentedTest.java` - package verification on an Android target.
 
-The most report-relevant XML can be included after the Kotlin listings if space permits: `AndroidManifest.xml`, the six `activity_*.xml` layouts, the three dialog layouts, `strings.xml`, `colors.xml`, `dimens.xml`, the landscape `dimens.xml`, and `themes.xml`.
+The most report-relevant XML can be included after the Java listings if space permits: `AndroidManifest.xml`, the six `activity_*.xml` layouts, the three dialog layouts, `strings.xml`, `colors.xml`, `dimens.xml`, the landscape `dimens.xml`, and `themes.xml`.
 
 ---
 
 # Appendix B - Complete function catalogue
 
-## `MainActivity.kt`
+## `MainActivity.java`
 
 | Function | Purpose |
 |---|---|
@@ -331,8 +332,10 @@ The most report-relevant XML can be included after the Kotlin listings if space 
 | `handleGameSelection()` | Starts a Fun game immediately or opens the challenge dialog. |
 | `showChallengeSelectionDialog()` | Offers Time Attack or Round Rush and passes the chosen game mode. |
 | `showTimeSelectionDialog()` | Offers 60, 90, or 120 seconds and passes the selected duration. |
+| `startTimeAttack()` | Closes the dialog and starts the selected topic with the requested duration. |
+| `showFullScreenDialog()` | Applies the shared transparent full-screen window styling to mode dialogs. |
 
-## `BaseGameActivity.kt`
+## `BaseGameActivity.java`
 
 | Function | Purpose |
 |---|---|
@@ -361,7 +364,7 @@ The most report-relevant XML can be included after the Kotlin listings if space 
 | `onDestroy()` | Cancels timers and saves a completed Fun session only when the Activity is finishing. |
 | `onSaveInstanceState()` | Stores all shared score, timer, round, result, and history-save state. |
 
-## `AssociationActivity.kt`
+## `AssociationActivity.java`
 
 | Function | Purpose |
 |---|---|
@@ -376,7 +379,7 @@ The most report-relevant XML can be included after the Kotlin listings if space 
 | `checkAnswer()` | Rejects late or repeated input and routes the selection to success or retry feedback. |
 | `onSaveInstanceState()` | Saves the current Count & Match exercise and lock state. |
 
-## `PlaceValueActivity.kt`
+## `PlaceValueActivity.java`
 
 | Function | Purpose |
 |---|---|
@@ -391,7 +394,7 @@ The most report-relevant XML can be included after the Kotlin listings if space 
 | `successMessage()` | Explains the correct number using tens, ones, and English number words. |
 | `onSaveInstanceState()` | Saves the place-value question and lock state. |
 
-## `RecognitionActivity.kt`
+## `RecognitionActivity.java`
 
 | Function | Purpose |
 |---|---|
@@ -404,7 +407,7 @@ The most report-relevant XML can be included after the Kotlin listings if space 
 | `successMessage()` | States the correct English word and numeral together. |
 | `onSaveInstanceState()` | Saves the current recognition exercise and lock state. |
 
-## `SequenceActivity.kt`
+## `SequenceActivity.java`
 
 | Function | Purpose |
 |---|---|
@@ -419,6 +422,7 @@ The most report-relevant XML can be included after the Kotlin listings if space 
 | `renderBalloonRows()` | Applies a balanced row pattern for three to six balloons. |
 | `inflateBalloon()` | Inflates and sizes one reusable custom balloon view. |
 | `attachDropTarget()` | Accepts valid text drag data, validates the number and destination, and handles drag feedback. |
+| `parseDraggedNumber()` | Safely converts text drag data into a number or rejects malformed data. |
 | `attachImmediateDrag()` | Detects movement beyond touch slop and starts a native drag with `ClipData`. |
 | `placeByTap()` | Places a tapped number in the next position when it is correct. |
 | `placeNumber()` | Records a valid placement, hides its source, fills its target, and completes the question once. |
@@ -428,13 +432,13 @@ The most report-relevant XML can be included after the Kotlin listings if space 
 | `colorForNumber()` | Assigns a stable colour based on the option's position. |
 | `onSaveInstanceState()` | Saves options, direction, placed values, signature, and lock state. |
 
-## `ExerciseGeneratorUtil.kt`
+## `ExerciseGeneratorUtil.java`
 
 | Function or property | Purpose |
 |---|---|
-| `PlaceValueData.total` | Converts tens and ones into the represented two-digit number. |
-| `SortExercise.orderedNumbers` | Returns ascending or descending correct order. |
-| `SequenceData.missingValue` | Returns the selected missing sequence value for the supporting sequence generator. |
+| `PlaceValueData.getTotal()` | Converts tens and ones into the represented two-digit number. |
+| `SortExercise.getOrderedNumbers()` | Returns ascending or descending correct order. |
+| `SequenceData.getMissingValue()` | Returns the selected missing sequence value for the supporting sequence generator. |
 | `SequenceData.equals()` / `hashCode()` | Compares `IntArray` content correctly in tests or collections. |
 | `generateObjectCount()` | Validates the upper bound and returns a counting quantity from one to that bound. |
 | `generatePlaceValue()` | Validates the tens bound and returns random tens and ones. |
@@ -466,22 +470,23 @@ The most report-relevant XML can be included after the Kotlin listings if space 
 
 # Appendix C - Project file analysis
 
-## Kotlin implementation files
+## Java implementation files
 
 | File | Role |
 |---|---|
-| `MainActivity.kt` | Home screen, mode state, direct topic navigation, and challenge dialogs. |
-| `BaseGameActivity.kt` | Shared game framework for score, timer, Round Rush, answer cards, feedback, results, high scores, history, and lifecycle. |
-| `AssociationActivity.kt` | Number-to-object association topic. |
-| `PlaceValueActivity.kt` | Visual tens-and-ones topic. |
-| `RecognitionActivity.kt` | Two-way numeral and English-word recognition topic. |
-| `SequenceActivity.kt` | Ascending/descending ordering with drag and tap. |
-| `ExerciseGeneratorUtil.kt` | Validated random exercise logic and number words. |
-| `BalloonFrameLayout.kt` | Custom accessible click wrapper for balloon controls. |
-| `HistoryActivity.kt` | Trophy screen and mode filtering. |
-| `HistoryAdapter.kt` | RecyclerView Adapter/ViewHolder binding. |
-| `HistoryManager.kt` | SharedPreferences/Gson persistence. |
-| `HistoryRecord.kt` | Trophy record data class. |
+| `MainActivity.java` | Home screen, mode state, direct topic navigation, and challenge dialogs. |
+| `BaseGameActivity.java` | Shared game framework for score, timer, Round Rush, answer cards, feedback, results, high scores, history, and lifecycle. |
+| `AnswerChoice.java` | Immutable value, label, and accessibility description for an answer card. |
+| `AssociationActivity.java` | Number-to-object association topic. |
+| `PlaceValueActivity.java` | Visual tens-and-ones topic. |
+| `RecognitionActivity.java` | Two-way numeral and English-word recognition topic. |
+| `SequenceActivity.java` | Ascending/descending ordering with drag and tap. |
+| `ExerciseGeneratorUtil.java` | Validated random exercise logic and number words. |
+| `BalloonFrameLayout.java` | Custom accessible click wrapper for balloon controls. |
+| `HistoryActivity.java` | Trophy screen and mode filtering. |
+| `HistoryAdapter.java` | RecyclerView Adapter/ViewHolder binding. |
+| `HistoryManager.java` | SharedPreferences/Gson persistence. |
+| `HistoryRecord.java` | Immutable trophy record model with Java getters and value equality. |
 
 ## Layout files
 
@@ -542,7 +547,7 @@ The most report-relevant XML can be included after the Kotlin listings if space 
 | `gradle-wrapper.properties` | Pins Gradle 9.1.0 and its SHA-256 checksum. |
 | `settings.gradle.kts` | Repository policy, root project name, and `app` module. |
 | Root `build.gradle.kts` | Declares the Android application plugin alias. |
-| `gradle.properties` | Gradle JVM memory and Kotlin code-style settings. |
+| `gradle.properties` | Project-wide Gradle JVM memory settings. |
 | `proguard-rules.pro` | Default project ProGuard template; release minification is currently disabled. |
 | `backup_rules.xml` / `data_extraction_rules.xml` | Android backup/data-transfer rule templates. |
 | `gradlew`, `gradlew.bat`, `gradle-wrapper.jar` | Standard Gradle Wrapper launchers and bootstrap JAR. |
@@ -552,8 +557,8 @@ The most report-relevant XML can be included after the Kotlin listings if space 
 
 | File | Role |
 |---|---|
-| `ExerciseGeneratorUtilTest.kt` | Nine meaningful JUnit tests for uniqueness, ranges, boundaries, modes, ordering, invalid requests, row layouts, and number words. |
-| `ExampleInstrumentedTest.kt` | Confirms the installed app uses the required package name. |
+| `ExerciseGeneratorUtilTest.java` | Nine meaningful JUnit tests for uniqueness, ranges, boundaries, modes, ordering, invalid requests, row layouts, and number words. |
+| `ExampleInstrumentedTest.java` | Confirms the installed app uses the required package name. |
 
 ## Documentation and non-source artifacts
 
@@ -574,8 +579,8 @@ The most report-relevant XML can be included after the Kotlin listings if space 
 - [ ] Show both ascending and descending Number Order behaviour in screenshots or text.
 - [ ] Show at least one random second exercise to demonstrate that questions change.
 - [ ] Highlight Fun mode, Time Attack, Round Rush, feedback, high scores, and trophy history as added features.
-- [ ] Explain Kotlin, Material 3, runtime drag-and-drop, Flexbox, JSON history, lifecycle restoration, accessibility, and tests as noteworthy techniques.
-- [ ] Include the relevant Kotlin source code in the appendix.
+- [ ] Explain Java 17, Kotlin DSL, Material 3, runtime drag-and-drop, Flexbox, JSON history, lifecycle restoration, accessibility, and tests as noteworthy techniques.
+- [ ] Include the relevant Java source code in the appendix.
 - [x] Final unit-test, lint, and debug-assembly verification passed on 4 August 2026.
 - [ ] Export the final report to PDF.
 - [ ] Package the PDF and source tree without generated or ignored files in `P1-Chai_Boon_Hong-2206806.zip`.

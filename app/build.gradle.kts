@@ -5,6 +5,7 @@ plugins {
 android {
     namespace = "com.uccd3223.p1_chai_boon_hong_2206806"
     compileSdk = 36
+    enableKotlin = false
 
     defaultConfig {
         applicationId = "com.uccd3223.p1_chai_boon_hong_2206806"
@@ -32,7 +33,7 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
