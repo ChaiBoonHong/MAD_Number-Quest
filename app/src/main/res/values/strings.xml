@@ -5,6 +5,19 @@
     <string name="pick_a_game_hint">Every game helps your number skills grow.</string>
     <string name="back">Back</string>
     <string name="close">Close</string>
+    <string name="settings">Settings</string>
+    <string name="open_settings">Open settings</string>
+    <string name="pause">Pause</string>
+    <string name="pause_game">Pause game</string>
+    <string name="game_paused">Game paused</string>
+    <string name="game_paused_hint">Take a break. Your game is safe.</string>
+    <string name="resume">Resume</string>
+    <string name="home">Home</string>
+    <string name="leave_game_title">Go home?</string>
+    <string name="leave_game_message">This challenge is not finished yet.</string>
+    <string name="leave_fun_message">Your stars will be saved before you go home.</string>
+    <string name="keep_playing">Keep playing</string>
+    <string name="go_home">Go home</string>
     <string name="zero">0</string>
 
     <string name="number_association_title">Count &amp; Match</string>
@@ -37,10 +50,9 @@
     <string name="find_the_number">Which number matches this word?</string>
     <string name="find_the_word">Which words match this number?</string>
     <string name="find_the_missing_number">Put the numbers in order</string>
-    <string name="start_with_smallest">Drag or tap the smallest number first</string>
-    <string name="start_with_biggest">Drag or tap the biggest number first</string>
+    <string name="start_with_smallest">Smallest to biggest</string>
+    <string name="start_with_biggest">Biggest to smallest</string>
     <string name="choose_answer">Choose your answer</string>
-    <string name="great_job">Great job! ⭐</string>
     <string name="count_success">Great counting! You found %1$d.</string>
     <string name="count_retry">Almost! Count each picture again.</string>
     <string name="place_value_success">%1$s make %2$s.</string>
@@ -57,12 +69,14 @@
     <string name="correct_mark">✓</string>
 
     <string name="time_format">⏱ %ds</string>
-    <string name="score_format">⭐ %d</string>
     <string name="score_initial">⭐ 0</string>
     <string name="time_initial">⏱ 0s</string>
-    <string name="round_format">Round %1$d  •  %2$d/%3$d</string>
 
     <string name="fun_mode">Fun</string>
+    <string name="score_with_best">⭐ %1$d | Best %2$s</string>
+    <string name="round_with_best">R%1$d %2$d/%3$d | Best %4$s</string>
+    <string name="best_none">—</string>
+    <string name="best_round">R%1$d</string>
     <string name="challenge_mode">Challenge</string>
     <string name="fun_mode_hint">Relaxed play • no timer</string>
     <string name="challenge_mode_hint">Race the clock • earn a high score</string>
@@ -82,7 +96,6 @@
     <string name="one_twenty_seconds_hint">Mega game</string>
 
     <string name="game_history">My Trophy Shelf</string>
-    <string name="trophy_icon">🏆</string>
     <string name="history">Trophies</string>
     <string name="history_empty">Play a game to earn your first trophy!</string>
     <string name="answer_number">Number %1$d</string>
@@ -96,6 +109,9 @@
     </plurals>
     <string name="mode_time_attack">Time Attack</string>
     <string name="mode_score_attack">Round Rush</string>
+    <string name="mode_time_attack_duration">Time Attack • %1$ds</string>
+    <string name="highest_score">Highest score</string>
+    <string name="previous_result">Previous result</string>
     <string name="main_menu">Main menu</string>
     <string name="play_again">Play again</string>
     <string name="new_high_score">New high score! 🏆</string>
@@ -106,6 +122,22 @@
     </plurals>
     <string name="round_rush_result">Time is up! You reached round %1$d.</string>
     <string name="result_title">Quest complete!</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_hint">Make Number Quest feel just right.</string>
+    <string name="music">Music</string>
+    <string name="music_hint">Play background music</string>
+    <string name="music_volume">Music volume</string>
+    <string name="sound_effects">Sound effects</string>
+    <string name="sound_effects_hint">Play answer and celebration sounds</string>
+    <string name="sound_volume">Sound volume</string>
+    <string name="vibration_feedback">Vibration feedback</string>
+    <string name="vibration_feedback_hint">Use gentle touch feedback</string>
+    <string name="reset_progress_settings">Reset progress and settings</string>
+    <string name="reset_title">Reset everything?</string>
+    <string name="reset_message">This clears trophies and best scores, then restores the sound settings.</string>
+    <string name="cancel">Cancel</string>
+    <string name="reset">Reset</string>
+    <string name="reset_complete">Progress and settings were reset.</string>
     <string name="number_words_pair">%1$s and %2$s</string>
     <plurals name="next_round">
         <item quantity="one">Round %1$d! You have %2$d second.</item>

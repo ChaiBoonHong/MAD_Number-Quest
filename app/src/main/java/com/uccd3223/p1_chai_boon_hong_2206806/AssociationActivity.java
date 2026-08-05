@@ -78,7 +78,6 @@ public class AssociationActivity extends BaseGameActivity {
         optionsContainerLayout = findViewById(R.id.optionsContainerLayout);
         tvInstruction = findViewById(R.id.tvInstruction);
         tvFeedback = findViewById(R.id.tvFeedback);
-        findViewById(R.id.btnBack).setOnClickListener(view -> finish());
     }
 
     private void loadNextQuestion() {
@@ -193,7 +192,7 @@ public class AssociationActivity extends BaseGameActivity {
     }
 
     private void checkAnswer(int selectedOption, MaterialCardView card) {
-        if (questionLocked || isGameOver) return;
+        if (questionLocked || !canAcceptInput()) return;
         if (selectedOption == targetCount) {
             questionLocked = true;
             completeAnswerChoice(

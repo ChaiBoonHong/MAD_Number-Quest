@@ -50,7 +50,6 @@ public class RecognitionActivity extends BaseGameActivity {
         tvTargetPrompt = findViewById(R.id.tvTargetPrompt);
         optionsContainerLayout = findViewById(R.id.optionsContainerLayout);
         tvFeedback = findViewById(R.id.tvFeedback);
-        findViewById(R.id.btnBack).setOnClickListener(view -> finish());
     }
 
     private void loadNextQuestion() {
@@ -132,7 +131,7 @@ public class RecognitionActivity extends BaseGameActivity {
     }
 
     private void checkAnswer(int selectedOption, MaterialCardView card) {
-        if (questionLocked || isGameOver) return;
+        if (questionLocked || !canAcceptInput()) return;
         if (selectedOption == targetNumber) {
             questionLocked = true;
             completeAnswerChoice(

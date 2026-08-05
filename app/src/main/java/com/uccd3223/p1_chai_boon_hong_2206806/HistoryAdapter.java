@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,9 +17,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
-    private final List<HistoryRecord> records;
+    private final List<RankedHistoryRecord> records;
 
-    public HistoryAdapter(List<HistoryRecord> records) {
+    public HistoryAdapter(List<RankedHistoryRecord> records) {
         this.records = records;
     }
 
@@ -35,7 +36,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        HistoryRecord record = records.get(position);
+        RankedHistoryRecord ranked = records.get(position);
+        HistoryRecord record = ranked.getRecord();
+        holder.ivHistoryIcon.setImageResource(ranked.isHighest() ? R.drawable.ic_trophy_gold : R.drawable.ic_history_clock);
+        holder.ivHistoryIcon.setContentDescription(holder.itemView.getContext().getString(
+                ranked.isHighest() ? R.string.highest_score : R.string.previous_result));
         switch (record.getGameName()) {
             case "Association":
                 holder.tvGameName.setText(R.string.number_association_title);
@@ -59,7 +64,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         } else {
             holder.chipMode.setVisibility(View.VISIBLE);
             if ("TIME_ATTACK".equals(record.getMode())) {
-                holder.chipMode.setText(R.string.mode_time_attack);
+                if (record.getTimeLimitMs() > 0L) {
+                    holder.chipMode.setText(holder.itemView.getContext().getString(
+                            R.string.mode_time_attack_duration, record.getTimeLimitMs() / 1_000L));
+                } else {
+                    holder.chipMode.setText(R.string.mode_time_attack);
+                }
             } else if ("SCORE_ATTACK".equals(record.getMode())) {
                 holder.chipMode.setText(R.string.mode_score_attack);
             } else {
@@ -94,6 +104,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         final Chip chipMode;
         final TextView tvScore;
         final TextView tvDate;
+        final ImageView ivHistoryIcon;
 
         ViewHolder(View view) {
             super(view);
@@ -101,6 +112,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             chipMode = view.findViewById(R.id.chipMode);
             tvScore = view.findViewById(R.id.tvScore);
             tvDate = view.findViewById(R.id.tvDate);
+            ivHistoryIcon = view.findViewById(R.id.trophyIcon);
         }
     }
 }

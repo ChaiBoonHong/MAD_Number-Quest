@@ -17,16 +17,14 @@
         android:minHeight="88dp"
         android:padding="14dp">
 
-        <TextView
+        <ImageView
             android:id="@+id/trophyIcon"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="@drawable/bg_status_blue"
-            android:gravity="center"
-            android:importantForAccessibility="no"
-            android:includeFontPadding="false"
-            android:text="@string/trophy_icon"
-            android:textSize="22sp"
+            android:contentDescription="@string/previous_result"
+            android:padding="10dp"
+            android:src="@drawable/ic_history_clock"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -7,12 +7,18 @@ public final class HistoryRecord {
     private final String mode;
     private final int score;
     private final long timestamp;
+    private final long timeLimitMs;
 
     public HistoryRecord(String gameName, String mode, int score, long timestamp) {
+        this(gameName, mode, score, timestamp, 0L);
+    }
+
+    public HistoryRecord(String gameName, String mode, int score, long timestamp, long timeLimitMs) {
         this.gameName = Objects.requireNonNull(gameName);
         this.mode = Objects.requireNonNull(mode);
         this.score = score;
         this.timestamp = timestamp;
+        this.timeLimitMs = timeLimitMs;
     }
 
     public String getGameName() {
@@ -31,6 +37,8 @@ public final class HistoryRecord {
         return timestamp;
     }
 
+    public long getTimeLimitMs() { return timeLimitMs; }
+
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -38,12 +46,13 @@ public final class HistoryRecord {
         HistoryRecord record = (HistoryRecord) other;
         return score == record.score
                 && timestamp == record.timestamp
+                && timeLimitMs == record.timeLimitMs
                 && gameName.equals(record.gameName)
                 && mode.equals(record.mode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(gameName, mode, score, timestamp);
+        return Objects.hash(gameName, mode, score, timestamp, timeLimitMs);
     }
 }

@@ -53,7 +53,6 @@ public class PlaceValueActivity extends BaseGameActivity {
         tvTensCount = findViewById(R.id.tvTensCount);
         tvOnesCount = findViewById(R.id.tvOnesCount);
         tvFeedback = findViewById(R.id.tvFeedback);
-        findViewById(R.id.btnBack).setOnClickListener(view -> finish());
     }
 
     private void loadNextQuestion() {
@@ -159,7 +158,7 @@ public class PlaceValueActivity extends BaseGameActivity {
     }
 
     private void checkAnswer(int selectedOption, MaterialCardView card) {
-        if (questionLocked || isGameOver) return;
+        if (questionLocked || !canAcceptInput()) return;
         if (selectedOption == currentData.getTotal()) {
             questionLocked = true;
             completeAnswerChoice(

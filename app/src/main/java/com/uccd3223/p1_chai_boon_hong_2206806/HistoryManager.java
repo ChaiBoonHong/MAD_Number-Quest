@@ -42,4 +42,8 @@ public final class HistoryManager {
             return Collections.emptyList();
         }
     }
+
+    public static void reset(Context context) {
+        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit().clear().apply();
+    }
 }

@@ -69,7 +69,6 @@ public class SequenceActivity extends BaseGameActivity {
         optionsContainerLayout = findViewById(R.id.optionsContainerLayout);
         tvStartDirection = findViewById(R.id.tvStartDirection);
         tvFeedback = findViewById(R.id.tvFeedback);
-        findViewById(R.id.btnBack).setOnClickListener(view -> finish());
     }
 
     private void loadNextQuestion() {
@@ -319,7 +318,7 @@ public class SequenceActivity extends BaseGameActivity {
     }
 
     private void placeByTap(int number, View sourceView) {
-        if (questionLocked || isGameOver || sourceView.getVisibility() != View.VISIBLE) return;
+        if (questionLocked || !canAcceptInput() || sourceView.getVisibility() != View.VISIBLE) return;
         int nextIndex = -1;
         for (int index = 0; index < placedNumbers.size(); index++) {
             if (placedNumbers.get(index) == null) {
@@ -335,7 +334,7 @@ public class SequenceActivity extends BaseGameActivity {
     }
 
     private void placeNumber(int targetIndex, int number, View sourceView) {
-        if (questionLocked
+        if (questionLocked || !canAcceptInput()
                 || placedNumbers.get(targetIndex) != null
                 || sourceView.getVisibility() != View.VISIBLE) return;
         placedNumbers.set(targetIndex, number);

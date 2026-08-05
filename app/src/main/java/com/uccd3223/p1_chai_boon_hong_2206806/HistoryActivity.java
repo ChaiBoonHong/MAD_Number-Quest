@@ -18,7 +18,7 @@ public class HistoryActivity extends AppCompatActivity {
     private static final String STATE_SELECTED_MODE = "history_selected_mode";
 
     private RecyclerView rvHistory;
-    private List<HistoryRecord> historyList;
+    private List<RankedHistoryRecord> historyList;
     private TextView tvEmptyHistory;
     private MaterialButton btnHistoryFun;
     private MaterialButton btnHistoryChallenge;
@@ -33,7 +33,7 @@ public class HistoryActivity extends AppCompatActivity {
         rvHistory = findViewById(R.id.rvHistory);
         tvEmptyHistory = findViewById(R.id.tvEmptyHistory);
         rvHistory.setLayoutManager(new LinearLayoutManager(this));
-        historyList = HistoryManager.getHistory(this);
+        historyList = HistoryRankingUtil.rankNewestFirst(HistoryManager.getHistory(this));
 
         btnHistoryFun = findViewById(R.id.btnHistoryFun);
         btnHistoryChallenge = findViewById(R.id.btnHistoryChallenge);
@@ -52,11 +52,12 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void updateList(int tabPosition) {
-        List<HistoryRecord> filtered = new ArrayList<>();
-        for (HistoryRecord record : historyList) {
+        List<RankedHistoryRecord> filtered = new ArrayList<>();
+        for (RankedHistoryRecord ranked : historyList) {
+            HistoryRecord record = ranked.getRecord();
             boolean funRecord = "FUN".equals(record.getMode());
             if (tabPosition == 0 && funRecord || tabPosition == 1 && !funRecord) {
-                filtered.add(record);
+                filtered.add(ranked);
             }
         }
         rvHistory.setAdapter(new HistoryAdapter(filtered));

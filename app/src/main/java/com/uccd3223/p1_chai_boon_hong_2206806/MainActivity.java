@@ -30,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnHistory).setOnClickListener(view ->
                 startActivity(new Intent(this, HistoryActivity.class))
         );
+        findViewById(R.id.btnSettings).setOnClickListener(view ->
+                startActivity(new Intent(this, SettingsActivity.class))
+        );
 
         btnFunMode.setOnClickListener(view -> selectMode(false));
         btnChallengeMode.setOnClickListener(view -> selectMode(true));
